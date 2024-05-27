@@ -1,6 +1,6 @@
 //GET all orders
 const getOrders = (req, res) => {
-  res.status(200).json({ orders: "all order here" });
+  res.status(200).json({ orders: "show all order here" });
 };
 
 //GET a single order
