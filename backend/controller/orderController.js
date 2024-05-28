@@ -33,8 +33,8 @@ const createOrder = async (req, res) => {
     const results = await db.query(
       'INSERT INTO "order" (canteen, stall, fooditem, price, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [canteen, stall, foodItem, price, user_id]
-    );
-    res.status(200).json(results.rows);
+
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
