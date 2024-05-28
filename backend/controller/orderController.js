@@ -28,13 +28,14 @@ const getSingleOrder = async (req, res) => {
 
 //CREATE a new order
 const createOrder = async (req, res) => {
+  console.log(req.body);
   const { canteen, stall, foodItem, price, user_id } = req.body;
   try {
     const results = await db.query(
       'INSERT INTO "order" (canteen, stall, fooditem, price, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [canteen, stall, foodItem, price, user_id]
     );
-    res.status(200).json(results.rows);
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);

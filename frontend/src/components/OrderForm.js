@@ -2,43 +2,43 @@ import { useState } from "react"
 import { useOrdersContext } from '../hooks/useOrdersContext'
 
 const OrderForm = () => {
-    const { dispatch } = useOrdersContext
-    const [canteen, setCanteen] = useState('')
-    const [stall, setStall] = useState('')
-    const [foodItem, setFoodItem] = useState('')
-    const [price, setPrice] = useState('')
-    const [tele, setTele] = useState('')
-    const [error, setError] = useState(null)
+    const { dispatch } = useOrdersContext();
+    const [canteen, setCanteen] = useState("");
+    const [stall, setStall] = useState("");
+    const [foodItem, setFoodItem] = useState("");
+    const [price, setPrice] = useState("");
+    const [tele, setTele] = useState("");
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+      e.preventDefault();
 
-        const order = {canteen, stall, foodItem, price, tele}
+      const order = { canteen, stall, foodItem, price, tele };
 
-        //fetch request to post new data
-        const response = await fetch('/api/order', {
-            method: 'POST',
-            body: JSON.stringify(order),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const json = await response.json()
+      //fetch request to post new data
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
 
-        if (!response.ok) {
-            setError(json.error)
-        }
-        if (response.ok) {
-            setCanteen('')
-            setStall('')
-            setFoodItem('')
-            setPrice('')
-            setTele('')
-            setError(null)
-            console.log('Order added', json)
-            dispatch({type: 'CREATE_ORDER', payload: json})
-        }
-    }
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setCanteen("");
+        setStall("");
+        setFoodItem("");
+        setPrice("");
+        setTele("");
+        setError(null);
+        console.log("Order added", json);
+        dispatch({ type: "CREATE_ORDER", payload: json });
+      }
+    };
     
     return (
         <form className="create" onSubmit={handleSubmit}>
