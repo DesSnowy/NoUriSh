@@ -75,7 +75,7 @@ const OrderForm = () => {
             <label>Telegram handle: </label>
             <input 
                 type="text"
-                onChange={(e) => setCanteen(e.target.value)}
+                onChange={(e) => setTele(e.target.value)}
                 value={tele}
             />
 
