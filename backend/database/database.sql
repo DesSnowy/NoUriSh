@@ -2,12 +2,11 @@ CREATE DATABASE nourish;
 
 \c nourish
 
--- CREATE TABLE "user" (
---     id SERIAL PRIMARY KEY,
---     email VARCHAR(255),
---     password TEXT,
---     tele VARCHAR(50)
--- );
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255),
+    password TEXT
+);
 
 CREATE TABLE "order" (
     id SERIAL PRIMARY KEY,
