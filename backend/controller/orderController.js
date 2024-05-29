@@ -28,11 +28,12 @@ const getSingleOrder = async (req, res) => {
 
 //CREATE a new order
 const createOrder = async (req, res) => {
-  const { canteen, stall, foodItem, price, user_id } = req.body;
+  const { canteen, stall, foodItem, price, user_id, tele } = req.body;
   try {
     const results = await db.query(
-      'INSERT INTO "order" (canteen, stall, fooditem, price, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [canteen, stall, foodItem, price, user_id]
+      'INSERT INTO "order" (canteen, stall, fooditem, price, tele) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [canteen, stall, foodItem, price, tele]
+    );
 
     res.status(200).json(results.rows[0]);
   } catch (error) {
@@ -56,11 +57,11 @@ const deleteOrder = async (req, res) => {
 //UPDATE an order
 const updateOrder = async (req, res) => {
   try {
-    const { canteen, stall, foodItem, price, user_id } = req.body;
+    const { canteen, stall, foodItem, price, user_id, tele } = req.body;
     const id = req.params.id;
     const results = await db.query(
-      'UPDATE "order" SET canteen = $1, stall = $2, fooditem = $3, price = $4, user_id = $5 where id = $6 returning *',
-      [canteen, stall, foodItem, price, user_id, id]
+      'UPDATE "order" SET canteen = $1, stall = $2, fooditem = $3, price = $4, tele = $5 where id = $6 returning *',
+      [canteen, stall, foodItem, price, user_id, tele, id]
     );
 
     res.status(200).json(results.rows[0]);
