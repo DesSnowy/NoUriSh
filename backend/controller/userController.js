@@ -1,10 +1,14 @@
 const db = require("../database/db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator");
+const { checkAllNotNull } = require("../utils/functions");
 
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
+  if (!checkAllNotNull(email, password)) {
+    return res.status(400).json({ error: "all field must be filled!" });
+  }
 
   try {
     const results = await db.query('SELECT * from "user" where email = $1', [
@@ -36,6 +40,9 @@ const signupUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  if (!checkAllNotNull(email, password)) {
+    return res.status(400).json({ error: "all field must be filled!" });
+  }
 
   try {
     const results = await db.query('SELECT * from "user" where email = $1', [
