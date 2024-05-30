@@ -1,5 +1,5 @@
 const express = require("express");
-
+const authoriseUser = require("../middleware/validUser");
 const router = express.Router();
 
 const {
@@ -9,6 +9,9 @@ const {
   deleteOrder,
   updateOrder,
 } = require("../controller/orderController");
+
+//Verify user first
+router.use(authoriseUser);
 
 //GET all order
 router.get("/", getOrders);

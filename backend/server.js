@@ -9,6 +9,10 @@ require("dotenv").config();
 const app = express();
 
 //middle ware
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
 //allowing queries to server
 app.use(cors());
@@ -17,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 
 app.use("/api/orders", orderRoutes);
 
