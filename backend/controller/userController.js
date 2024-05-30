@@ -1,5 +1,6 @@
 const db = require("../database/db");
 const bcrypt = require("bcrypt");
+const jwtGenerator = require("../utils/jwtGenerator");
 
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
@@ -24,7 +25,9 @@ const signupUser = async (req, res) => {
       [email, hashedPassword]
     );
 
-    res.status(200).json("user created");
+    const token = jwtGenerator(email);
+
+    res.status(200).json({ email, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server error!" });
@@ -51,8 +54,9 @@ const loginUser = async (req, res) => {
     if (!isCorrectPassword) {
       return res.status(400).json({ error: "incorrect password!" });
     }
+    const token = jwtGenerator(email);
 
-    res.status(200).json("logged in");
+    res.status(200).json({ email, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server error!" });
