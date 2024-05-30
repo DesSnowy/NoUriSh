@@ -64,6 +64,9 @@ const deleteOrder = async (req, res) => {
 const updateOrder = async (req, res) => {
   try {
     const { canteen, stall, foodItem, price, user_id, tele } = req.body;
+    if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
+      return res.status(500).json({ error: "all fields must be filled" });
+    }
     const id = req.params.id;
     const results = await db.query(
       'UPDATE "order" SET canteen = $1, stall = $2, fooditem = $3, price = $4, tele = $5 where id = $6 returning *',
