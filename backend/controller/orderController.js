@@ -1,5 +1,5 @@
 const db = require("../database/db");
-const { mapOrderForView } = require("../utils/mapForView");
+const { mapOrderForView, checkAllNotNull } = require("../utils/functions");
 //GET all orders
 const getOrders = async (req, res) => {
   try {
@@ -30,8 +30,12 @@ const getSingleOrder = async (req, res) => {
 
 //CREATE a new order
 const createOrder = async (req, res) => {
-  const { canteen, stall, foodItem, price, user_id, tele } = req.body;
+  const { canteen, stall, foodItem, price, tele } = req.body;
   try {
+    console.log(canteen);
+    if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
+      return res.status(500).json({ error: "all fields must be filled" });
+    }
     const results = await db.query(
       'INSERT INTO "order" (canteen, stall, fooditem, price, tele) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [canteen, stall, foodItem, price, tele]

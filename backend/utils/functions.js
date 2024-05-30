@@ -9,4 +9,10 @@ const mapOrderForView = (order) => {
   };
 };
 
-module.exports = { mapOrderForView };
+const checkAllNotNull = (...items) => {
+  return items.every(
+    (item) => item !== undefined && item !== null && item !== ""
+  );
+};
+
+module.exports = { mapOrderForView, checkAllNotNull };
