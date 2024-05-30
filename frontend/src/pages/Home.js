@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useOrdersContext } from '../hooks/useOrdersContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 //components
 import OrderDetails from '../components/OrderDetails'
@@ -7,10 +8,15 @@ import OrderForm from '../components/OrderForm'
 
 const Home = () => {
     const {orders, dispatch} = useOrdersContext()
+    const {user} = useAuthContext()
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const response = await fetch('/api/orders')
+            const response = await fetch('/api/orders', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
             const json = await response.json() //array of order objects
 
             if (response.ok) {
@@ -18,8 +24,11 @@ const Home = () => {
             }
         }
 
-        fetchOrders()
-    }, [])
+        if (user) {
+            fetchOrders()
+        }
+        
+    }, [dispatch, user])
 
     return (
         <div className="home">
