@@ -2,7 +2,7 @@
 
 **BACKEND**
 1. Ensure that postgresql is already installed
-2. Copy `.env.example` to `.emv`
+2. Copy `.env.example` to `.env`
 3. Change the relevant details (PGPASSWORD)
 4. run `npm install` in  backend folder
 5. Run the code from `database/database.sql` into SQL shell

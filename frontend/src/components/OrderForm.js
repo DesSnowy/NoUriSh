@@ -1,8 +1,11 @@
 import { useState } from "react"
 import { useOrdersContext } from '../hooks/useOrdersContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const OrderForm = () => {
     const { dispatch } = useOrdersContext();
+    const { user } = useAuthContext()
+
     const [canteen, setCanteen] = useState("");
     const [stall, setStall] = useState("");
     const [foodItem, setFoodItem] = useState("");
@@ -11,9 +14,14 @@ const OrderForm = () => {
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
+      e.preventDefault()
 
-      const order = { canteen, stall, foodItem, price, tele };
+      if (!user) {
+        setError('You must be logged in')
+        return
+      }
+
+      const order = { canteen, stall, foodItem, price, tele }
 
       //fetch request to post new data
       const response = await fetch("/api/orders", {
@@ -21,6 +29,7 @@ const OrderForm = () => {
         body: JSON.stringify(order),
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${user.token}`
         },
       });
       const json = await response.json();
