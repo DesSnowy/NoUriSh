@@ -10,7 +10,7 @@ const app = express();
 
 //middle ware
 
-app.use((req, res) => {
+app.use((req, res, next) => {
   //set header first to allow request or origin domain (value can be different)
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -31,6 +31,7 @@ app.use((req, res) => {
       body: "OK",
     });
   }
+  next();
 });
 
 app.use((req, res, next) => {
