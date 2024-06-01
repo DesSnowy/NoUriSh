@@ -12,11 +12,14 @@ const Home = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const response = await fetch('/api/orders', {
+            const response = await fetch(
+              "https://backend-navy-omega-16.vercel.app/api/orders/",
+              {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`
+                  'Authorization': `Bearer ${user.token}`
                 }
-            })
+              }
+            );
             const json = await response.json() //array of order objects
 
             if (response.ok) {
