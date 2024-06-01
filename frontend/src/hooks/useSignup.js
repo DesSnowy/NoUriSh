@@ -11,7 +11,7 @@ export const useSignup = () => {
         setError(null)
 
         const response = await fetch(
-          "https://backend-git-vercelintegration-dessnowys-projects.vercel.app/api/user/signup",
+          "https://backend-git-vercelintegration-dessnowys-projects.vercel.app/api/user/signup/",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

@@ -13,9 +13,8 @@ const Home = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             const response = await fetch(
-              "http://backend-git-vercelintegration-dessnowys-projects.vercel.app/api/orders",
+              "http://backend-git-vercelintegration-dessnowys-projects.vercel.app/api/orders/",
               {
-                method: "GET",
                 headers: {
                   'Authorization': `Bearer ${user.token}`
                 }
