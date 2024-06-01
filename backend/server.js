@@ -9,17 +9,6 @@ require("dotenv").config();
 const app = express();
 
 //middle ware
-
-app.use((req, res, next) => {
-  //Preflight CORS handler
-  if (req.method === "OPTIONS") {
-    return res.status(200).json({
-      body: "OK",
-    });
-  }
-  next();
-});
-
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   if (req.method === "OPTIONS") {

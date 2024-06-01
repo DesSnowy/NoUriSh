@@ -15,12 +15,10 @@ export const useLogin = () => {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password })
           }
         );
-        console.log(response);
         const json = await response.json();
-        console.log(json);
         if (!response.ok) {
             setIsLoading(false)
             setError(json.error)
