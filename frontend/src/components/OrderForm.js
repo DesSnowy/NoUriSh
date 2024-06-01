@@ -24,7 +24,7 @@ const OrderForm = () => {
       const order = { canteen, stall, foodItem, price, tele }
 
       //fetch request to post new data
-      const response = await fetch("/api/orders", {
+      const response = await fetch("https://backend-navy-omega-16.vercel.app/api/orders/", {
         method: "POST",
         body: JSON.stringify(order),
         headers: {
