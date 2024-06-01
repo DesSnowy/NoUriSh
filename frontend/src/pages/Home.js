@@ -12,11 +12,15 @@ const Home = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const response = await fetch('/api/orders', {
+            const response = await fetch(
+              "http://backend-git-vercelintegration-dessnowys-projects.vercel.app/api/orders",
+              {
+                method: "GET",
                 headers: {
-                    'Authorization': `Bearer ${user.token}`
+                  'Authorization': `Bearer ${user.token}`
                 }
-            })
+              }
+            );
             const json = await response.json() //array of order objects
 
             if (response.ok) {
