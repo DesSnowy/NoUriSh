@@ -23,7 +23,4 @@
         @apply text-pink-600 text-sm
     }
 
-    .orders {
-        @apply "text-left space-y-2 text-black"
-    }
 }
