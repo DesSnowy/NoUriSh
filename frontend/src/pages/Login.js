@@ -13,24 +13,26 @@ const Login = () => {
     }
 
     return (
-        <form className="login" onSubmit={handleSubmit}>
-            <h3>Log in</h3>
+        <form className="justify-center p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex flex-col items-center space-y-4 w-full" onSubmit={handleSubmit}>
+            <h3 className="text-center space-y-2 sm:text-left text-xl font-bold text-black">Log in</h3>
 
-            <label>Email:</label>
+            <label className="userInputHeading">Email:</label>
             <input
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
+                className="userInput"
             />
 
-            <label>Password:</label>
+            <label className="userInputHeading">Password:</label>
             <input
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                className="userInput"
             />
 
-            <button disabled={isLoading}>Log in</button>
+            <button disabled={isLoading} className="button">Log in</button>
             {error && <div className="error">{error}</div>}
         </form>
     )

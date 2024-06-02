@@ -11,8 +11,8 @@ const Navbar = () => {
     }
 
     return (
-        <header>
-            <div className="container">
+        <header className='bg-white'>
+            <div className="font-bold text-3xl text-blue-500">
                 <Link to="/">NoUriSh</Link>
             </div>
             <nav>
@@ -23,7 +23,7 @@ const Navbar = () => {
                     </div>
                 )}
                 {!user && (
-                    <div>
+                    <div className="flex flex-row justify-end font-normal text-blue-500 space-x-2">
                         <Link to="/login">Log in</Link>
                         <Link to="/signup">Sign up</Link>
                     </div>

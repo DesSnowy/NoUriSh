@@ -50,45 +50,50 @@ const OrderForm = () => {
     };
     
     return (
-        <form className="create" onSubmit={handleSubmit}>
-            <h3>Add an Order</h3>
+        <form className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex flex-col items-center space-y-4 w-full justify-end" onSubmit={handleSubmit}>
+            <h3 className="text-center space-y-2 sm:text-left text-xl font-bold text-black">Add an Order</h3>
 
-            <label>Canteen: </label>
+            <label className="userInputHeading">Canteen: </label>
             <input 
                 type="text"
                 onChange={(e) => setCanteen(e.target.value)}
                 value={canteen}
+                className="userInput"
             />
 
-            <label>Stall: </label>
+            <label className="userInputHeading">Stall: </label>
             <input 
                 type="text"
                 onChange={(e) => setStall(e.target.value)}
                 value={stall}
+                className="userInput"
             />
 
-            <label>Food Item: </label>
+            <label className="userInputHeading">Food Item: </label>
             <input 
                 type="text"
                 onChange={(e) => setFoodItem(e.target.value)}
                 value={foodItem}
+                className="userInput"
             />
 
-            <label>Price: </label>
+            <label className="userInputHeading">Price: </label>
             <input 
                 type="number"
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
+                className="userInput"
             />
 
-            <label>Telegram handle: </label>
+            <label className="userInputHeading">Telegram handle: </label>
             <input 
                 type="text"
                 onChange={(e) => setTele(e.target.value)}
                 value={tele}
+                className="userInput"
             />
 
-            <button>Submit order</button>
+            <button className="button">Submit order</button>
             {error && <div className="error">{error}</div>}
         </form>
     )
