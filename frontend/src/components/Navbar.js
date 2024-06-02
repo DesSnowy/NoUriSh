@@ -11,26 +11,41 @@ const Navbar = () => {
     }
 
     return (
-        <header>
-            <div className="container">
-                <Link to="/">NoUriSh</Link>
+      <header className="bg-white flex flex-row justify-between items-center">
+        <div className="font-bold text-3xl text-blue-500 pl-5 hover:text-blue-700">
+          <Link to="/">NoUriSh</Link>
+        </div>
+        <nav>
+          {user && (
+            <div className="flex flex-row justify-end font-normal space-x-2 text-lg m-3 pr-5">
+              <span className="pr-10">{user.email}</span>
+              <button
+                className="bg-red-200 px-3 rounded-full hover:bg-red-400"
+                onClick={handleClick}
+              >
+                Log out
+              </button>
             </div>
-            <nav>
-                {user && (
-                    <div>
-                        <span>{user.email}</span>
-                        <button onClick={handleClick}>Log out</button>
-                    </div>
-                )}
-                {!user && (
-                    <div>
-                        <Link to="/login">Log in</Link>
-                        <Link to="/signup">Sign up</Link>
-                    </div>
-                )}
-            </nav>
-        </header>
-    )
+          )}
+          {!user && (
+            <div className="flex flex-row justify-end font-normal text-blue-500 space-x-2 text-lg m-3 pr-5">
+              <Link
+                to="/login"
+                className="bg-green-300 rounded-full px-3 hover:bg-green-500 hover:text-white"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-green-300 rounded-full px-3 hover:bg-green-500 hover:text-white"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
+        </nav>
+      </header>
+    );
 }
 
 export default Navbar
