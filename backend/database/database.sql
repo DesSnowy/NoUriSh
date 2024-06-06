@@ -5,7 +5,10 @@ CREATE DATABASE nourish;
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255),
-    password TEXT
+    password TEXT,
+    name VARCHAR(255),
+    tele VARCHAR(50),
+    residence VARCHAR(50)
 );
 
 CREATE TABLE "order" (
@@ -16,7 +19,3 @@ CREATE TABLE "order" (
     price FLOAT,
     tele VARCHAR(50)
 );
-
--- INSERT INTO "user" (email, password, tele) VALUES ('mockMail@123', 'password123', '@john123');
-
--- INSERT INTO "order" (canteen, stall, foodItem, price, user_id) VALUES ('frontier', 'chinese', 'chicken rice', 3.50, 1);
