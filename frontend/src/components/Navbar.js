@@ -25,6 +25,12 @@ const Navbar = () => {
               >
                 Log out
               </button>
+
+              <Link
+                to="/profile"
+                className="font-medium text-gray-500 hover:text-black">
+                Profile
+              </Link>
             </div>
           )}
           {!user && (

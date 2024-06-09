@@ -4,6 +4,9 @@ import { useSignup } from '../hooks/useSignup'
 const Signup = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [name, setName] = useState("")
+    const [residence, setResidence] = useState("")
+    const [tele, setTele] = useState("")
     const {signup, error, isLoading} = useSignup()
 
     const handleSubmit = async (e) => {
@@ -34,6 +37,33 @@ const Signup = () => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          className="userInput"
+        />
+
+        <label className="userInputHeading">Name:</label>
+        <input
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          className="userInput"
+        />
+
+        <label className="userInputHeading">Residence:</label>
+        <select
+          onChange={(e) => setResidence(e.target.value)}
+          value={residence}
+          className="userInput"
+        >
+          <option value="">Select your residence</option>
+          <option value="Tembusu">Tembusu</option>
+          <option value="PGP">PGP</option>
+        </select>
+
+        <label className="userInputHeading">Telegram Handle:</label>
+        <input
+          type="text"
+          onChange={(e) => setTele(e.target.value)}
+          value={tele}
           className="userInput"
         />
 
