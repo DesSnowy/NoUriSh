@@ -22,6 +22,6 @@ router.use(authoriseUser);
 
 router.get("/", getUserDetail);
 
-Router.patch("/", updateUserDetail);
+router.patch("/", updateUserDetail);
 
 module.exports = router;

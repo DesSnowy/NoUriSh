@@ -6,15 +6,8 @@ export const profileReducer = (state, action) => {
     switch (action.type) {
         case 'SET_PROFILE': 
             return {
-                profile: action.payload
-            }
-        case 'UPDATE_PROFILE':
-            return {
-                profile: {
-                    ...state.profile,
-                    ...action.payload
-                }
-            }
+              profile: action.payload,
+            };
         default:
             return state
     }

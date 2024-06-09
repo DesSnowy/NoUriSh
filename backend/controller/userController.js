@@ -5,7 +5,6 @@ const { checkAllNotNull } = require("../utils/functions");
 
 const signupUser = async (req, res) => {
   const { email, password, name, tele, residence } = req.body;
-  console.log(req.body);
   if (!checkAllNotNull(email, password, name, tele, residence)) {
     return res.status(400).json({ error: "all field must be filled!" });
   }

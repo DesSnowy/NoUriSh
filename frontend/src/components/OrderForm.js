@@ -46,7 +46,6 @@ const OrderForm = () => {
       setPrice("");
       setTele("");
       setError(null);
-      console.log("Order added", json);
       dispatch({ type: "CREATE_ORDER", payload: json });
     }
   };
