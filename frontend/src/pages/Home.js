@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+/*import { useEffect } from 'react'
 import { useOrdersContext } from '../hooks/useOrdersContext'
 import { useAuthContext } from '../hooks/useAuthContext'
 
@@ -6,10 +6,12 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import OrderDetails from '../components/OrderDetails'
 import OrderForm from '../components/OrderForm'
 
-const BASE_API_URL = process.env.REACT_APP_API_URL;
+const BASE_API_URL = process.env.REACT_APP_API_URL;*/
+
+import Header from '../components/Header'
 
 const Home = () => {
-  const { orders, dispatch } = useOrdersContext();
+  /*const { orders, dispatch } = useOrdersContext();
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -30,15 +32,20 @@ const Home = () => {
       fetchOrders();
     }
   }, [dispatch, user]);
+  */
 
   return (
-    <div className="flex flex-row justify-around">
+    <div>
+      <Header />
+    </div>
+    
+    /*<div className="flex flex-row justify-around">
       <div className="orders">
         {orders &&
           orders.map((order) => <OrderDetails key={order._id} order={order} />)}
       </div>
       <OrderForm />
-    </div>
+    </div>*/
   );
 };
 

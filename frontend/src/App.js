@@ -9,6 +9,7 @@ import Signup from './pages/Signup'
 import Profile from './pages/Profile'
 import MyOrders from './pages/MyOrders'
 import Cart from './pages/Cart'
+import Ordering from './pages/Ordering'
 
 function App() {
   const { user } = useAuthContext()
@@ -21,7 +22,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
+              element={<Home />}
             />
             <Route
               path="/login"
@@ -31,6 +32,7 @@ function App() {
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
+            <Route path="/ordering" element={<Ordering />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/myorders" element={<MyOrders />}/>
             <Route path="/cart" element={<Cart />} />

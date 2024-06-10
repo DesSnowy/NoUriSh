@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
       <header className="bg-white flex flex-row justify-between items-center">
         <div className="font-bold text-3xl text-blue-500 pl-5 hover:text-blue-700">
-          <Link to="/">NoUriSh</Link>
+          <Link to="/">NoUriSh</Link> 
         </div>
         <nav>
           {user && (
@@ -25,6 +25,12 @@ const Navbar = () => {
               >
                 Log out
               </button>
+
+              <Link
+                to="/"
+                className="font-medium text-gray-500 hover:text-black">
+                Home
+              </Link>
 
               <Link
                 to="/profile"
