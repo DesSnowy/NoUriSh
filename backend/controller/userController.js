@@ -4,9 +4,8 @@ const jwtGenerator = require("../utils/jwtGenerator");
 const { checkAllNotNull } = require("../utils/functions");
 
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(req.body);
-  if (!checkAllNotNull(email, password)) {
+  const { email, password, name, tele, residence } = req.body;
+  if (!checkAllNotNull(email, password, name, tele, residence)) {
     return res.status(400).json({ error: "all field must be filled!" });
   }
 
@@ -25,8 +24,8 @@ const signupUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await db.query(
-      'INSERT INTO "user" (email, password) VALUES ($1, $2) RETURNING *',
-      [email, hashedPassword]
+      'INSERT INTO "user" (email, password, name, tele, residence) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [email, hashedPassword, name, tele, residence]
     );
 
     const token = jwtGenerator(email);
@@ -70,7 +69,44 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getUserDetail = async (req, res) => {
+  const email = req.email;
+  try {
+    const results = await db.query('SELECT * from "user" where email = $1', [
+      email,
+    ]);
+    if (results.rows.length == 0) {
+      return res.status(400).json({ error: "user does not exist" });
+    }
+
+    res.status(200).json(results.rows[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server error!" });
+  }
+};
+
+const updateUserDetail = async (req, res) => {
+  const email = req.email;
+  const { name, tele, residence } = req.body;
+  if (!checkAllNotNull(name, tele, residence)) {
+    return res.status(400).json({ error: "all field must be filled!" });
+  }
+  const results = await db.query(
+    'UPDATE "user" SET name = $1, tele = $2, residence = $3 where email = $4 returning *',
+    [name, tele, residence, email]
+  );
+  const order = results.rows[0];
+  res.status(200).json(order);
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server error!" });
+  }
+};
 module.exports = {
   signupUser,
   loginUser,
+  getUserDetail,
+  updateUserDetail,
 };

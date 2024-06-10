@@ -32,7 +32,6 @@ const getSingleOrder = async (req, res) => {
 const createOrder = async (req, res) => {
   const { canteen, stall, foodItem, price, tele } = req.body;
   try {
-    console.log(canteen);
     if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
       return res.status(500).json({ error: "all fields must be filled" });
     }
@@ -74,8 +73,8 @@ const updateOrder = async (req, res) => {
     );
     const order = results.rows[0];
     res.status(200).json(mapOrderForView(order));
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
