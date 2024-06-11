@@ -17,7 +17,7 @@ const Signup = () => {
         const success = await signup(email, password, name, residence, tele);
 
         if (success) {
-          navigate('/ordering')
+          navigate('/canteens')
         }
     }
 

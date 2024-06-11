@@ -10,7 +10,7 @@ const Header = () => {
         if (!user) {
             navigate("/login");
         } else {
-            navigate("/ordering");
+            navigate("/canteens");
         }
     };
 
