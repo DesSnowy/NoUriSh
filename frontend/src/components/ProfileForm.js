@@ -14,7 +14,7 @@ const ProfileForm = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const response = await fetch(`${BASE_API_URL}api/user/`, {
+      const response = await fetch(`${BASE_API_URL}/api/user/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -44,7 +44,7 @@ const ProfileForm = () => {
     const newProfile = { name, residence, tele };
 
     //fetch request to patch with updated data
-    const response = await fetch(`${BASE_API_URL}api/user/`, {
+    const response = await fetch(`${BASE_API_URL}/api/user/`, {
       method: "PATCH",
       body: JSON.stringify(newProfile),
       headers: {

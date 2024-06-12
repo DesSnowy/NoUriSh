@@ -9,7 +9,7 @@ const Canteens = () => {
   const { user } = useAuthContext();
   useEffect(() => {
     const fetchCanteens = async () => {
-      const response = await fetch(`${BASE_API_URL}api/canteen/`, {
+      const response = await fetch(`${BASE_API_URL}/api/canteen/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

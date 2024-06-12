@@ -26,7 +26,7 @@ const OrderForm = () => {
     const order = { canteen, stall, foodItem, price, tele };
 
     //fetch request to post new data
-    const response = await fetch(`${BASE_API_URL}api/orders/`, {
+    const response = await fetch(`${BASE_API_URL}/api/orders/`, {
       method: "POST",
       body: JSON.stringify(order),
       headers: {

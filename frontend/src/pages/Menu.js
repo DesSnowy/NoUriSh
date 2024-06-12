@@ -12,7 +12,7 @@ const Menu = () => {
     // fetch menu for the given canteen ID and stall ID
     const fetchMenu = async () => {
       const response = await fetch(
-        `${BASE_API_URL}api/food/${stallId}/${canteenId}`
+        `${BASE_API_URL}/api/food/${stallId}/${canteenId}`
       );
       const json = await response.json();
 
