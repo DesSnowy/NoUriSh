@@ -28,9 +28,19 @@ const mapStallForView = (stall) => {
     name: stall.stall_name,
   };
 };
+
+const mapItemForView = (item) => {
+  return {
+    name: item.food_name,
+    price: item.price,
+    description: "fase",
+  };
+};
+
 module.exports = {
   mapOrderForView,
   checkAllNotNull,
   mapCanteenForView,
   mapStallForView,
+  mapItemForView,
 };
