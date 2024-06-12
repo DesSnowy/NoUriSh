@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useMenuContext } from '../hooks/useMenuContext'
 import MenuDetails from '../components/MenuDetails'
 
+const BASE_API_URL = process.env.REACT_APP_API_URL;
+
 const Menu = () => {
   const { canteenId, stallId } = useParams();
   const { menu, dispatch } = useMenuContext();

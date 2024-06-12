@@ -11,6 +11,7 @@ import MyOrders from './pages/MyOrders'
 import Cart from './pages/Cart'
 import Canteens from './pages/Canteens'
 import Stalls from './pages/Stalls'
+import Menu from "./pages/Menu";
 
 function App() {
   const { user } = useAuthContext()

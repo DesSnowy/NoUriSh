@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useStallsContext } from '../hooks/useStallsContext'
 import StallDetails from '../components/StallDetails'
 
+const BASE_API_URL = process.env.REACT_APP_API_URL;
+
 const Stalls = () => {
   const { canteenId } = useParams();
   const { stalls, dispatch } = useStallsContext();
