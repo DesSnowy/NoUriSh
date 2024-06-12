@@ -15,4 +15,22 @@ const checkAllNotNull = (...items) => {
   );
 };
 
-module.exports = { mapOrderForView, checkAllNotNull };
+const mapCanteenForView = (canteen) => {
+  return {
+    id: canteen.canteen_id,
+    name: canteen.canteen_name,
+  };
+};
+
+const mapStallForView = (stall) => {
+  return {
+    id: stall.stall_id,
+    name: stall.stall_name,
+  };
+};
+module.exports = {
+  mapOrderForView,
+  checkAllNotNull,
+  mapCanteenForView,
+  mapStallForView,
+};

@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import CanteenDetails from "../components/CanteenDetails";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Canteens = () => {
   const [canteens, setCanteens] = useState(null);
+  const { user } = useAuthContext();
   useEffect(() => {
     const fetchCanteens = async () => {
-      const response = await fetch(`${BASE_API_URL}api/canteen/`);
+      const response = await fetch(`${BASE_API_URL}api/canteen/`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json(); //array of canteen objects
-
+      console.log(json);
       if (response.ok) {
         setCanteens(json);
       }
     };
-
-    fetchCanteens();
-  }, []);
+    if (user) {
+      fetchCanteens();
+    }
+  }, [user]);
 
   return (
     <div>
@@ -24,7 +31,7 @@ const Canteens = () => {
         <div className="canteens">
           {canteens &&
             canteens.map((canteen) => (
-              <CanteenDetails key={canteen._id} canteen={canteen} />
+              <CanteenDetails key={canteen.id} canteen={canteen} />
             ))}
         </div>
       </div>
