@@ -4,7 +4,7 @@ const StallDetails = ({ stall, canteenId }) => {
     const navigate = useNavigate();
 
     const handleNavigate = () => {
-      navigate(`/canteens/${canteenId}/stalls/${stall.id}`);
+      navigate(`/canteens/${canteenId}/stalls/${stall.id}/menu`);
     };
 
     return (
