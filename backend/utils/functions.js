@@ -19,6 +19,7 @@ const mapCanteenForView = (canteen) => {
   return {
     id: canteen.canteen_id,
     name: canteen.canteen_name,
+    image: canteen.canteen_image,
   };
 };
 
@@ -33,7 +34,7 @@ const mapItemForView = (item) => {
   return {
     name: item.food_name,
     price: item.price,
-    description: "fase",
+    description: item.description,
   };
 };
 

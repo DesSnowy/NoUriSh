@@ -21,7 +21,8 @@ CREATE TABLE "order" (
 
 CREATE TABLE "canteen" (
     canteen_id SERIAL PRIMARY KEY,
-    canteen_name VARCHAR(50)
+    canteen_name VARCHAR(50),
+    canteen_image VARCHAR(500)
 );
 
 CREATE TABLE "stall" (
@@ -36,5 +37,20 @@ CREATE TABLE "food" (
     food_name VARCHAR(50),
     price FLOAT NOT NULL,
     stall_id int,
+    description VARCHAR(255),
      CONSTRAINT fk_stall FOREIGN KEY(stall_id) REFERENCES stall(stall_id)
 );
+
+INSERT INTO canteen VALUES
+(1, 'frontier', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Frontier-Canteen-1024x684.jpg'),
+(2, 'deck', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/deck.jpg');
+
+INSERT INTO stall VALUES
+(1, 'chinese_frontier', 1),
+(2, 'korean_frontier', 1),
+(3, 'western_deck', 2),
+(4, 'pasta_deck', 2);
+
+INSERT INTO food VALUES
+(1, 'chicken rice', 3.5, 1, 'chicken rice description'),
+(2, 'chicken noodle',3.5, 1, 'some good noodles');

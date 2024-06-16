@@ -10,7 +10,7 @@ const CanteenDetails = ({ canteen }) => {
     return (
       <div
         className="h-screen flex items-center bg-cover bg-center bg-no-repeat"
-        // style={{ backgroundImage: `url(${canteen.image})` }}
+        style={{ backgroundImage: `url(${canteen.image})` }}
       >
         <div className="flex flex-row justify-around space-x-5">
           <p>
