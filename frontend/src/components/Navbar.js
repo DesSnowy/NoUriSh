@@ -33,6 +33,12 @@ const Navbar = () => {
               </Link>
 
               <Link
+                to="/canteens"
+                className="font-medium text-gray-500 hover:text-black">
+                Order
+              </Link>
+
+              <Link
                 to="/profile"
                 className="font-medium text-gray-500 hover:text-black">
                 Profile
