@@ -1,35 +1,45 @@
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useStallsContext } from '../hooks/useStallsContext'
-import StallDetails from '../components/StallDetails'
+import { useParams } from "react-router-dom";
+import StallDetails from "../components/StallDetails";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+
+const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Stalls = () => {
   const { canteenId } = useParams();
-  const { stalls, dispatch } = useStallsContext();
+  const [stalls, setStalls] = useState(null);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     // fetch stalls for the given canteen ID
     const fetchStalls = async () => {
-      const response = await fetch(`${BASE_API_URL}api/stall/${canteenId}`)
+      const response = await fetch(`${BASE_API_URL}/api/stall/${canteenId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json(); //array of stall objects
-
+      console.log(json);
       if (response.ok) {
-        dispatch({ type: "SET_STALLS", payload: json });
+        setStalls(json);
       }
     };
-
-    fetchStalls();
-  }, [dispatch, canteenId]);
+    if (user) {
+      fetchStalls();
+    }
+  }, [canteenId, user]);
 
   return (
     <div>
       <h1>{canteenId}</h1>
-        <div className="stalls">
-            {stalls &&
-                stalls.map((stall) => <StallDetails key={stall._id} stall={stall} canteenId={canteenId}/>)}
-        </div>
+      <div className="stalls">
+        {stalls &&
+          stalls.map((stall) => (
+            <StallDetails key={stall.id} stall={stall} canteenId={canteenId} />
+          ))}
+      </div>
     </div>
   );
 };
 
-export default Stalls
+export default Stalls;

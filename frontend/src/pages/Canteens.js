@@ -1,36 +1,42 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useCanteensContext } from '../hooks/useCanteensContext'
-import CanteenDetails from '../components/CanteenDetails'
+import { useEffect, useState } from "react";
+import CanteenDetails from "../components/CanteenDetails";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Canteens = () => {
-  const { canteens, dispatch } = useCanteensContext();
-
+  const [canteens, setCanteens] = useState(null);
+  const { user } = useAuthContext();
   useEffect(() => {
     const fetchCanteens = async () => {
-      const response = await fetch(`${BASE_API_URL}api/canteen/`);
+      const response = await fetch(`${BASE_API_URL}/api/canteen/`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json(); //array of canteen objects
-
+      console.log(json);
       if (response.ok) {
-        dispatch({ type: "SET_CANTEENS", payload: json });
+        setCanteens(json);
       }
     };
-    
-    fetchCanteens();
-  }, [dispatch]);
+    if (user) {
+      fetchCanteens();
+    }
+  }, [user]);
 
   return (
     <div>
       <div className="flex flex-row justify-around">
         <div className="canteens">
           {canteens &&
-            canteens.map((canteen) => <CanteenDetails key={canteen._id} canteen={canteen} />)}
+            canteens.map((canteen) => (
+              <CanteenDetails key={canteen.id} canteen={canteen} />
+            ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default Canteens
+export default Canteens;

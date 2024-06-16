@@ -1,7 +1,12 @@
 const express = require("express");
-const orderRoutes = require("./routes/orders");
-const userRoutes = require("./routes/users");
 const cors = require("cors");
+const authoriseUser = require("./middleware/validUser");
+
+const orderRoutes = require("./routes/orders");
+const userRoutes = require("./routes/user");
+const canteenRoutes = require("./routes/canteen");
+const stallRoutes = require("./routes/stall");
+const foodItemRoutes = require("./routes/foodItem");
 
 require("dotenv").config();
 
@@ -26,7 +31,15 @@ app.use(express.json());
 //routes
 app.use("/api/user", userRoutes);
 
+app.use(authoriseUser);
+
 app.use("/api/orders", orderRoutes);
+
+app.use("/api/canteen", canteenRoutes);
+
+app.use("/api/stall", stallRoutes);
+
+app.use("/api/food", foodItemRoutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {

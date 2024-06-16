@@ -11,6 +11,7 @@ import MyOrders from './pages/MyOrders'
 import Cart from './pages/Cart'
 import Canteens from './pages/Canteens'
 import Stalls from './pages/Stalls'
+import Menu from "./pages/Menu";
 
 function App() {
   const { user } = useAuthContext()
@@ -32,10 +33,13 @@ function App() {
             />
             <Route path="/canteens" element={<Canteens />} />
             <Route path="/canteens/:canteenId/stalls" element={<Stalls />} />
-            <Route path="/canteens/:canteenId/stalls/:stallId/menu" element={<Menu />} />
+            <Route
+              path="/canteens/:canteenId/stalls/:stallId/menu"
+              element={<Menu />}
+            />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/myorders" element={<MyOrders />}/>
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/myorders" element={<MyOrders />} />
+            {/* <Route path="/cart" element={<Cart />} /> */}
           </Routes>
         </div>
       </BrowserRouter>
