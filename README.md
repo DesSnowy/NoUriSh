@@ -9,5 +9,5 @@
 6. run `node server.js` to start the server
 
 **FRONTEND**
-1. run `npm install` in the frontend folder
-2. run `npm run start` to start the frontend server (ensure that backend server is up)
+1. run `npm install` and `npm install react-toastify` in the frontend folder
+3. run `npm run start` to start the frontend server (ensure that backend server is up)
