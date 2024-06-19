@@ -1,8 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
+import { toast } from 'react-toastify';
 
 export const CartContext = createContext();
 
-const cartReducer = (state, action) => {
+export const cartReducer = (state, action) => {
     switch (action.type) {
       case "ADD_TO_CART":
         const { item, quantity } = action.payload;
@@ -32,9 +33,9 @@ export const CartProvider = ({ children }) => {
   function removeCartProduct(indexToRemove) {
     setCartItems(prevItems => {
         const newItems = prevItems
-            .filter((value, index) => index !== indexToRemove)})
+            .filter((value, index) => index !== indexToRemove)
+        return newItems})
     toast.success('Item removed from cart');
-    return newItems
   }
 
   const addToCart = (item, quantity) => {

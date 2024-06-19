@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext, useState, useEffect } from 'react'
-import CartContext from "../context/CartContext"
+import { CartContext, cartReducer, CartProvider } from "../context/CartContext"
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
