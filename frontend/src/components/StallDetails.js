@@ -4,7 +4,7 @@ const StallDetails = ({ stall, canteenId }) => {
     const navigate = useNavigate();
 
     const handleNavigate = () => {
-      navigate(`/canteens/${canteenId}/stalls/${stall.id}/menu`);
+      navigate(`/canteens/${canteenId}/stalls/${stall.stall_id}/menu`);
     };
 
     return (
@@ -12,7 +12,7 @@ const StallDetails = ({ stall, canteenId }) => {
         <div className="flex flex-row justify-around space-x-5">
           <p>
             <button onClick={handleNavigate} className="text-3xl">
-              {stall.name}
+              {stall.stall_name}
             </button>
           </p>
         </div>

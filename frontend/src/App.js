@@ -39,7 +39,7 @@ function App() {
             />
             <Route path="/profile" element={<Profile />} />
             <Route path="/myorders" element={<MyOrders />} />
-            {/* <Route path="/cart" element={<Cart />} /> */}
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
       </BrowserRouter>

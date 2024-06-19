@@ -4,18 +4,18 @@ const CanteenDetails = ({ canteen }) => {
     const navigate = useNavigate();
 
     const handleNavigate = () => {
-      navigate(`/canteens/${canteen.id}/stalls`);
+      navigate(`/canteens/${canteen.canteen_id}/stalls`);
     };
 
     return (
       <div
         className="h-screen flex items-center bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${canteen.image})` }}
+        style={{ backgroundImage: `url(${canteen.canteen_image})` }}
       >
         <div className="flex flex-row justify-around space-x-5">
           <p>
             <button onClick={handleNavigate} className="text-3xl">
-              {canteen.name}
+              {canteen.canteen_name}
             </button>
           </p>
         </div>

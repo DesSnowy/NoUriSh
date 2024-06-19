@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import ProfileInputs from "./ProfileInputs";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -99,7 +100,7 @@ const ProfileForm = () => {
           <option value="PGP">PGP</option>
         </select>
       ) : (
-        <b>{residence}</b> //get the name from api
+        <b>{residence}</b> 
       )}
 
       <label className="userInputHeading">Telegram handle: </label>
@@ -111,9 +112,8 @@ const ProfileForm = () => {
           className="userInput"
         />
       ) : (
-        <b>{tele}</b> //get the name from api
+        <b>{tele}</b>
       )}
-
       <button className="button">{isEditing ? "Save" : "Edit"} Profile</button>
       {error && <div className="error">{error}</div>}
     </form>
