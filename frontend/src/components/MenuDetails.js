@@ -3,7 +3,7 @@ import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
 
 const MenuDetails = ({ item }) => {
-  const { addToCart } = useContext(CartContext);
+  const { dispatch } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -12,7 +12,7 @@ const MenuDetails = ({ item }) => {
   }
 
   function handleAddToCart() {
-    addToCart(item, quantity); 
+    dispatch({ type: "ADD_TO_CART", payload: { item, quantity } });
     setShowPopup(false);
     toast.success("Added to cart");
   }

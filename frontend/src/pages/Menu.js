@@ -19,6 +19,7 @@ const Menu = () => {
         },
       });
       const json = await response.json();
+      console.log(json);
 
       if (response.ok) {
         setMenu(json);
@@ -34,7 +35,7 @@ const Menu = () => {
       <h1>{canteenId}</h1>
       <h2>{stallId}</h2>
       <div className="menu">
-        {menu && menu.map((item) => <MenuDetails key={item._id} item={item} />)}
+        {menu && menu.map((item) => <MenuDetails key={item.id} item={item} />)}
       </div>
     </div>
   );
