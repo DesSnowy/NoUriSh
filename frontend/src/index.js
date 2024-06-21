@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from "./App";
 import { OrdersContextProvider } from './context/OrdersContext';
-import { AuthContextProvider } from './context/AuthContext';
-import { ProfileContextProvider } from "./context/ProfileContext";
+import { AuthContextProvider } from "./context/AuthContext";
+import { CartContextProvider } from "./context/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <OrdersContextProvider>
-        <ProfileContextProvider>
+        <CartContextProvider>
           <App />
-        </ProfileContextProvider>
+        </CartContextProvider>
       </OrdersContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

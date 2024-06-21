@@ -9,6 +9,9 @@ import Signup from './pages/Signup'
 import Profile from './pages/Profile'
 import MyOrders from './pages/MyOrders'
 import Cart from './pages/Cart'
+import Canteens from './pages/Canteens'
+import Stalls from './pages/Stalls'
+import Menu from "./pages/Menu";
 
 function App() {
   const { user } = useAuthContext()
@@ -19,10 +22,7 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route
-              path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
-            />
+            <Route path="/" element={<Home />} />
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}
@@ -31,8 +31,14 @@ function App() {
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
+            <Route path="/canteens" element={<Canteens />} />
+            <Route path="/canteens/:canteenId/stalls" element={<Stalls />} />
+            <Route
+              path="/canteens/:canteenId/stalls/:stallId/menu"
+              element={<Menu />}
+            />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/myorders" element={<MyOrders />}/>
+            <Route path="/myorders" element={<MyOrders />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>

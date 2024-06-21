@@ -23,4 +23,8 @@
         @apply text-pink-600 text-sm
     }
 
+    .itemDesc {
+        @apply text-gray-500 text-sm
+    }
+
 }
