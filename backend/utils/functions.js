@@ -16,12 +16,11 @@ const checkAllNotNull = (...items) => {
 };
 
 const mapCanteenForView = (canteen) => {
-  return canteen;
-  // return {
-  //   id: canteen.canteen_id,
-  //   name: canteen.canteen_name,
-  //   image: canteen.canteen_image,
-  // };
+  return {
+    id: canteen.canteen_id,
+    name: canteen.canteen_name,
+    image: canteen.canteen_image,
+  };
 };
 
 const mapStallForView = (stall) => {
@@ -34,7 +33,7 @@ const mapStallForView = (stall) => {
 
 const mapItemForView = (item) => {
   return {
-    food_name: item.food_name,
+    name: item.food_name,
     price: item.price,
     description: item.description,
     id: item.food_id,

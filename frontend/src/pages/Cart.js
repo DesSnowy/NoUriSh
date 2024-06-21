@@ -53,7 +53,7 @@ const Cart = () => {
           {cartItems?.length > 0 &&
             cartItems.map((item) => (
               <div className="flex items-center gap-4 mb-2 border-b py-2">
-                <h3 className="font-semibold">{item.food_name}</h3>
+                <h3 className="font-semibold">{item.name}</h3>
                 <div className="text-lg font-semibold">
                   <p>Stall: {item.stall_name}</p>
                   <p>Price: {item.price}</p>
