@@ -24,11 +24,10 @@ const mapCanteenForView = (canteen) => {
 };
 
 const mapStallForView = (stall) => {
-  return stall;
-  // return {
-  //   id: stall.stall_id,
-  //   name: stall.stall_name,
-  // };
+  return {
+    id: stall.stall_id,
+    name: stall.stall_name,
+  };
 };
 
 const mapItemForView = (item) => {
@@ -37,7 +36,7 @@ const mapItemForView = (item) => {
     price: item.price,
     description: item.description,
     id: item.food_id,
-    stall_name: "temp name",
+    stall_name: item.stall_name,
   };
 };
 
