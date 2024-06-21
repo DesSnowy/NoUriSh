@@ -13,10 +13,7 @@ const Cart = () => {
   const [residence, setResidence] = useState("");
   const [tele, setTele] = useState("");
   console.log(cartItems);
-  let total = 0;
-  for (const item of cartItems) {
-    total += item.price * item.quantity;
-  }
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -38,7 +35,11 @@ const Cart = () => {
     if (user) {
       fetchProfile();
     }
-  }, [user]);
+    setTotal(0);
+    for (const item of cartItems) {
+      setTotal((total) => total + item.price * item.quantity);
+    }
+  }, [user, cartItems]);
 
   const handleRemove = (indexToRemove) => {
     dispatch({ type: "REMOVE_CART_PRODUCT", payload: indexToRemove });
