@@ -20,6 +20,7 @@ const mapCanteenForView = (canteen) => {
     id: canteen.canteen_id,
     name: canteen.canteen_name,
     image: canteen.canteen_image,
+    activeGroups: canteen.activeGroup,
   };
 };
 
