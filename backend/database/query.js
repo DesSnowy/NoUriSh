@@ -20,4 +20,17 @@ const selectAllCanteens = async () => {
   const results = await db.query('SELECT * from "canteen";');
   return results.rows;
 };
-module.exports = { selectUserFromEmail, selectAllGroups, selectAllCanteens };
+
+const insertGroup = async (email, canteen_id, residence) => {
+  const results = await db.query(
+    'INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES ($1, $2, $3) RETURNING *',
+    [canteen_id, residence, true, email]
+  );
+  return results.rows[0];
+};
+module.exports = {
+  selectUserFromEmail,
+  selectAllGroups,
+  selectAllCanteens,
+  insertGroup,
+};

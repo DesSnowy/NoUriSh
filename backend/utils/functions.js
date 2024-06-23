@@ -41,10 +41,18 @@ const mapItemForView = (item) => {
   };
 };
 
+const mapGroupForView = (group) => {
+  return {
+    id: group.group_id,
+    user: group.user_email,
+  };
+};
+
 module.exports = {
   mapOrderForView,
   checkAllNotNull,
   mapCanteenForView,
   mapStallForView,
   mapItemForView,
+  mapGroupForView,
 };

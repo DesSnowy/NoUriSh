@@ -37,7 +37,9 @@ CREATE TABLE "group" (
     canteen_id int,
     residence VARCHAR(50),
     status BOOLEAN,
-    CONSTRAINT fk_canteen FOREIGN KEY(canteen_id) REFERENCES canteen(canteen_id)
+    user_email VARCHAR(255),
+    CONSTRAINT fk_canteen FOREIGN KEY(canteen_id) REFERENCES canteen(canteen_id),
+    CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
 );
 
 CREATE TABLE "order" (
