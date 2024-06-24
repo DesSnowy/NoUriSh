@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
-import ProfileInputs from "./ProfileInputs";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 

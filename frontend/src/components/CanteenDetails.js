@@ -18,6 +18,9 @@ const CanteenDetails = ({ canteen }) => {
               {canteen.name}
             </button>
           </p>
+          <p className='text-lg'>
+            Active Groups: {canteen.activeGroups}
+          </p>
         </div>
       </div>
     );

@@ -17,7 +17,7 @@ const Navbar = () => {
         </div>
         <nav>
           {user && (
-            <div className="flex flex-row justify-end font-normal space-x-2 text-lg m-3 pr-5">
+            <div className="flex flex-row justify-end font-normal space-x-4 text-lg m-3 pr-5">
               <span className="pr-10">{user.email}</span>
               <button
                 className="bg-red-200 px-3 rounded-full hover:bg-red-400"
@@ -42,6 +42,18 @@ const Navbar = () => {
                 to="/cart"
                 className="font-medium text-gray-500 hover:text-black">
                 Cart
+              </Link>
+
+              <Link
+                to="/grouporder"
+                className="font-medium text-gray-500 hover:text-black">
+                Group Order
+              </Link>
+
+              <Link
+                to="/myorders"
+                className="font-medium text-gray-500 hover:text-black">
+                Group Order
               </Link>
 
               <Link

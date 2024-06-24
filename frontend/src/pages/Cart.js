@@ -14,6 +14,9 @@ const Cart = () => {
   const [tele, setTele] = useState("");
   console.log(cartItems);
   const [total, setTotal] = useState(0);
+  const [groups, setGroups] = useState([])
+  const [group, setGroup] = useState(0)
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -39,16 +42,78 @@ const Cart = () => {
     for (const item of cartItems) {
       setTotal((total) => total + item.price * item.quantity);
     }
+
+    const fetchGroupOrders = async () => {
+      const response = await fetch(`${BASE_API_URL}/api/group/${canteenId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      console.log(json);
+
+      if (response.ok) {
+        setGroups(json);
+      }
+    };
+    if (user) {
+      fetchGroupOrders();
+    }
   }, [user, cartItems]);
 
   const handleRemove = (indexToRemove) => {
     dispatch({ type: "REMOVE_CART_PRODUCT", payload: indexToRemove });
   };
 
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      //array of orders
+      const orderItems = cartItems.map((item) => ({
+        canteen: item.canteen_id,
+        stall: item.stall_id,
+        foodItem: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        tele: tele,
+        group: group
+      }));
+
+      const orderDetails = {
+        orders: orderItems,
+        user: {
+          email: user.email,
+          name: name,
+          residence: residence,
+          tele: tele
+        }
+      };
+
+      //fetch request to post new data
+      const response = await fetch(`${BASE_API_URL}api/order/`, {
+        method: "POST",
+        body: JSON.stringify(orderDetails),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setError(null);
+        console.log("Order submitted successfully", json);
+      }
+  };  
+
   return (
     <section className="mt-8">
       <h1 className="text-5xl font-bold">Cart</h1>
       <div className="grid gap-4 grid-cols-2">
+        <h2>Canteen: {item.canteen_name}</h2>
         <div>
           {cartItems?.length === 0 && <div>No items in cart</div>}
           {cartItems?.length > 0 &&
@@ -79,6 +144,23 @@ const Cart = () => {
         <div className="bg-gray-200 p-4 rounded-lg">
           <h2>Checkout</h2>
           <form>
+            <select
+              onChange={(e) => setGroup(e.target.value)}
+              value={group}
+              className="userInput"
+            >
+              <option value="">Select group to join</option>
+              {groups.length === 0 ? (
+                <option value="" disabled>No active groups!</option>
+              ) : (
+                groups.map(group => (
+                  <option key={group.group_id} value={group.group_id}>
+                    {group.group_id}
+                  </option>
+                ))
+              )}
+            </select>
+
             <label className="userInputHeading">Name: </label>
             <b>{name}</b>
 
@@ -88,9 +170,10 @@ const Cart = () => {
             <label className="userInputHeading">Telegram handle: </label>
             <b>{tele}</b>
 
-            <button type="submit" className="button">
+            <button type="submit" className="button" onSubmit={handleSubmit}>
               Submit order
             </button>
+            {error && <div className="error">{error}</div>}
           </form>
         </div>
       </div>

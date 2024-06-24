@@ -40,6 +40,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/grouporder" element={<GroupOrders />} />
           </Routes>
         </div>
       </BrowserRouter>
