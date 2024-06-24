@@ -23,7 +23,7 @@ const selectAllCanteens = async () => {
 
 const insertGroup = async (email, canteen_id, residence) => {
   const results = await db.query(
-    'INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES ($1, $2, $3) RETURNING *',
+    'INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES ($1, $2, $3, $4) RETURNING *',
     [canteen_id, residence, true, email]
   );
   return results.rows[0];

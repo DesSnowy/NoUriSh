@@ -42,7 +42,7 @@ app.use("/api/stall", stallRoutes);
 
 app.use("/api/food", foodItemRoutes);
 
-app.use("/api.group", groupGroutes);
+app.use("/api/group", groupGroutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {
