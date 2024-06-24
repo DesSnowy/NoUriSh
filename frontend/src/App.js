@@ -11,6 +11,7 @@ import MyOrders from './pages/MyOrders'
 import Cart from './pages/Cart'
 import Canteens from './pages/Canteens'
 import Stalls from './pages/Stalls'
+import GroupOrder from './pages/GroupOrder'
 import Menu from "./pages/Menu";
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/grouporder" element={<GroupOrders />} />
+            <Route path="/grouporder" element={<GroupOrder />} />
           </Routes>
         </div>
       </BrowserRouter>

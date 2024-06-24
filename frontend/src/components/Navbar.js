@@ -53,7 +53,7 @@ const Navbar = () => {
               <Link
                 to="/myorders"
                 className="font-medium text-gray-500 hover:text-black">
-                Group Order
+                My Orders
               </Link>
 
               <Link

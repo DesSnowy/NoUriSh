@@ -1,5 +1,6 @@
 'use client'
 import React, { useContext, useState, useEffect } from 'react'
+import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -8,6 +9,7 @@ const BASE_API_URL = process.env.REACT_APP_API_URL;
 const Cart = () => {
   const { user } = useAuthContext();
   const { cartItems, dispatch } = useContext(CartContext);
+  const { canteenId } = useParams();
 
   const [name, setName] = useState("");
   const [residence, setResidence] = useState("");
@@ -113,7 +115,6 @@ const Cart = () => {
     <section className="mt-8">
       <h1 className="text-5xl font-bold">Cart</h1>
       <div className="grid gap-4 grid-cols-2">
-        <h2>Canteen: {item.canteen_name}</h2>
         <div>
           {cartItems?.length === 0 && <div>No items in cart</div>}
           {cartItems?.length > 0 &&
@@ -121,6 +122,7 @@ const Cart = () => {
               <div className="flex items-center gap-4 mb-2 border-b py-2">
                 <h3 className="font-semibold">{item.name}</h3>
                 <div className="text-lg font-semibold">
+                  <p>Canteen: {item.canteen_name}</p>
                   <p>Stall: {item.stall_name}</p>
                   <p>Price: {item.price}</p>
                   <p>Quantity: {item.quantity}</p>
