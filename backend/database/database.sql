@@ -53,20 +53,23 @@ CREATE TABLE "order" (
     CONSTRAINT fk_group FOREIGN KEY(group_id) REFERENCES "group"(group_id)
 );
 
-INSERT INTO canteen VALUES
-(1, 'frontier', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Frontier-Canteen-1024x684.jpg'),
-(2, 'deck', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/deck.jpg');
+INSERT INTO canteen (canteen_name, canteen_image)VALUES
+('frontier', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Frontier-Canteen-1024x684.jpg'),
+('deck', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/deck.jpg');
 
-INSERT INTO stall VALUES
-(1, 'chinese_frontier', 1),
-(2, 'korean_frontier', 1),
-(3, 'western_deck', 2),
-(4, 'pasta_deck', 2);
+INSERT INTO stall (stall_name, canteen_id) VALUES
+('chinese_frontier', 1),
+('korean_frontier', 1),
+('western_deck', 2),
+('pasta_deck', 2);
 
-INSERT INTO food VALUES
-(1, 'chicken rice', 3.5, 1, 'chicken rice description'),
-(2, 'chicken noodle',3.5, 1, 'some good noodles');
+INSERT INTO food (food_name, price, stall_id, description) VALUES
+('chicken rice', 3.5, 1, 'chicken rice description'),
+('chicken noodle',3.5, 1, 'some good noodles');
 
-INSERT INTO "group" VALUES
-(1, 1, 'PGP', true),
-(2, 2, 'Tembusu', true);
+INSERT INTO "user" VALUES
+('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP');
+
+INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES
+(1, 'PGP', true, 'test123@test.com'),
+(2, 'Tembusu', true, 'test123@test.com');
