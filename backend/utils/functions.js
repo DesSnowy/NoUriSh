@@ -38,6 +38,7 @@ const mapItemForView = (item) => {
     description: item.description,
     id: item.food_id,
     stall_name: item.stall_name,
+    canteen_name: item.canteen_name,
   };
 };
 

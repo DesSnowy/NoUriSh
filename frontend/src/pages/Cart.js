@@ -46,7 +46,7 @@ const Cart = () => {
     }
 
     const fetchGroupOrders = async () => {
-      const response = await fetch(`${BASE_API_URL}/api/group/${canteenId}`, {
+      const response = await fetch(`${BASE_API_URL}/api/group/${canteenId}/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

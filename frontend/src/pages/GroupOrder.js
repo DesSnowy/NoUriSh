@@ -83,18 +83,20 @@ const GroupOrder = () => {
           className="userInput"
         >
           <option value="">Select canteen</option>
-          {canteens.map(canteen => (
-            <option key={canteen.canteen_id} value={canteen.canteen_id}>
-              {canteen.canteen_name}
+          {canteens.map((canteen) => (
+            <option key={canteen.id} value={canteen.id}>
+              {canteen.name}
             </option>
           ))}
         </select>
 
-        <button type="submit" className="button">Start group order</button>
+        <button type="submit" className="button">
+          Start group order
+        </button>
         {error && <div className="error">{error}</div>}
       </form>
     </div>
-  )
+  );
 }
 
 export default GroupOrder
