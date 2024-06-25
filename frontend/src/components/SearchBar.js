@@ -14,7 +14,7 @@ const SearchBar = ({ onSearch }) => {
             type="text"
             onChange={(e) => handleChange(e.target.value)}
             value={input}
-            className="userInput"
+            className="userInput h-10 w-80 ml-4 mt-4"
         />
   )
 }

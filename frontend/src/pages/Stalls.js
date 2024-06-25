@@ -31,7 +31,6 @@ const Stalls = () => {
 
   return (
     <div>
-      <h1>{canteenId}</h1>
       <div className="stalls">
         {stalls &&
           stalls.map((stall) => (

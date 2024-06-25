@@ -1,68 +1,43 @@
-import { Link, useActionData } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 const Navbar = () => {
     const { logout } = useLogout()
     const { user } = useAuthContext()
+    const location = useLocation()
 
     const handleClick = () => {
         logout()
     }
 
     return (
-      <header className="bg-white flex flex-row justify-between items-center">
-        <div className="font-bold text-3xl text-blue-500 pl-5 hover:text-blue-700">
+      <header className="bg-white flex flex-row justify-between items-center h-20">
+        <div className="font-bold text-4xl text-blue-500 pl-5 hover:text-blue-700">
           <Link to="/">NoUriSh</Link> 
         </div>
-        <nav>
-          {user && (
-            <div className="flex flex-row justify-end font-normal space-x-4 text-lg m-3 pr-5">
-              <span className="pr-10">{user.email}</span>
-              <button
-                className="bg-red-200 px-3 rounded-full hover:bg-red-400"
-                onClick={handleClick}
-              >
+        <nav className='flex-grow'>
+        {user && (
+          <div className="flex justify-between items-center w-full px-5">
+            <div className="flex flex-grow justify-center">
+              <div className="flex flex-row justify-center items-center font-medium text-gray-500 hover:text-black space-x-20 text-xl m-3">
+                  <NavLinkWithUnderline to="/" currentPath={location.pathname}>Home</NavLinkWithUnderline>
+                  <NavLinkWithUnderline to="/canteens" currentPath={location.pathname}>Order</NavLinkWithUnderline>
+                  <NavLinkWithUnderline to="/cart" currentPath={location.pathname}>Cart</NavLinkWithUnderline>
+                  <NavLinkWithUnderline to="/grouporder" currentPath={location.pathname}>Group Order</NavLinkWithUnderline>
+                  <NavLinkWithUnderline to="/myorders" currentPath={location.pathname}>My Orders</NavLinkWithUnderline>
+                  <NavLinkWithUnderline to="/profile" currentPath={location.pathname}>Profile</NavLinkWithUnderline>
+              </div>
+            </div>
+            <div className="flex flex-row items-center font-normal text-lg m-3 space-x-4">
+              <span className="text-blue-500">{user.email}</span>
+              <button className="bg-red-200 px-3 rounded-full hover:bg-red-300" onClick={handleClick}>
                 Log out
               </button>
-
-              <Link
-                to="/"
-                className="font-medium text-gray-500 hover:text-black">
-                Home
-              </Link>
-
-              <Link
-                to="/canteens"
-                className="font-medium text-gray-500 hover:text-black">
-                Order
-              </Link>
-
-              <Link
-                to="/cart"
-                className="font-medium text-gray-500 hover:text-black">
-                Cart
-              </Link>
-
-              <Link
-                to="/grouporder"
-                className="font-medium text-gray-500 hover:text-black">
-                Group Order
-              </Link>
-
-              <Link
-                to="/myorders"
-                className="font-medium text-gray-500 hover:text-black">
-                My Orders
-              </Link>
-
-              <Link
-                to="/profile"
-                className="font-medium text-gray-500 hover:text-black">
-                Profile
-              </Link>
             </div>
+          </div>
           )}
+
           {!user && (
             <div className="flex flex-row justify-end font-normal text-blue-500 space-x-2 text-lg m-3 pr-5">
               <Link
@@ -83,5 +58,14 @@ const Navbar = () => {
       </header>
     );
 }
+
+const NavLinkWithUnderline = ({ to, currentPath, children }) => {
+  const isActive = currentPath === to;
+  return (
+      <Link to={to} className={`font-medium text-gray-500 hover:text-black ${isActive ? 'underline' : ''}`}>
+          {children}
+      </Link>
+  );
+};
 
 export default Navbar

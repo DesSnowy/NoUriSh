@@ -39,14 +39,14 @@ const Canteens = () => {
   return (
     <div>
       <SearchBar onSearch={handleSearch}/>
-      <div className="flex flex-row justify-around">
+      <div className="flex flex-row justify-around mt-4">
         <div className="canteens">
         {filteredCanteens && filteredCanteens.length > 0 ? (
           filteredCanteens.map((canteen) => (
             <CanteenDetails key={canteen.id} canteen={canteen} />
           ))
         ) : (
-          <p>No canteens found.</p>
+          <p className='error'>No canteens found.</p>
         )}
         </div>
       </div>

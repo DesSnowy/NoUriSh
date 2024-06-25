@@ -80,7 +80,7 @@ const GroupOrder = () => {
         <select
           onChange={(e) => setCanteen(e.target.value)}
           value={canteen}
-          className="userInput"
+          className="userInput h-10 w-80 ml-4 mt-4 mb-5"
         >
           <option value="">Select canteen</option>
           {canteens.map((canteen) => (
@@ -90,7 +90,7 @@ const GroupOrder = () => {
           ))}
         </select>
 
-        <button type="submit" className="button">
+        <button type="submit" className="button ml-4">
           Start group order
         </button>
         {error && <div className="error">{error}</div>}

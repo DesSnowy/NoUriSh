@@ -112,29 +112,32 @@ const Cart = () => {
   };  
 
   return (
-    <section className="mt-8">
-      <h1 className="text-5xl font-bold">Cart</h1>
+    <section className="mt-4 ml-10 mr-10">
+      <h3 className="text-5xl font-semibold text-blue-500 border-b-2 border-gray-400 py-2 mb-4">Cart</h3>
       <div className="grid gap-4 grid-cols-2">
         <div>
           {cartItems?.length === 0 && <div>No items in cart</div>}
           {cartItems?.length > 0 &&
             cartItems.map((item) => (
-              <div className="flex items-center gap-4 mb-2 border-b py-2">
-                <h3 className="font-semibold">{item.name}</h3>
-                <div className="text-lg font-semibold">
-                  <p>Canteen: {item.canteen_name}</p>
-                  <p>Stall: {item.stall_name}</p>
-                  <p>Price: {item.price}</p>
-                  <p>Quantity: {item.quantity}</p>
+              <div className="flex items-center justify-between gap-4 mb-2 border-b py-2 bg-white rounded-lg">
+                <div className="flex items-center gap-4">
+                  <h3 className="ml-4 text-lg font-semibold">{item.name}</h3>
+                  <div className="text-gray-500">
+                    <p>Canteen: {item.canteen_name}</p>
+                    <p>Stall: {item.stall_name}</p>
+                    <p>Price: ${item.price.toFixed(2)}</p>
+                    <p>Quantity: {item.quantity}</p>
+                  </div>
                 </div>
                 <button
-                  className="button p-2 ml-2"
+                  className="button mr-4"
                   type="button"
                   onClick={() => handleRemove(item.id)}
                 >
                   Remove
                 </button>
               </div>
+
             ))}
           <div className="py-2 text-right pr-16">
             <span className="text-gray-500">Total price:</span>
@@ -143,13 +146,13 @@ const Cart = () => {
             </span>
           </div>
         </div>
-        <div className="bg-gray-200 p-4 rounded-lg">
-          <h2>Checkout</h2>
+        <div className="bg-gray-300 p-4 rounded-lg space-y-3">
+          <h2 className='text-xl font-semibold'>Checkout</h2>
           <form>
             <select
               onChange={(e) => setGroup(e.target.value)}
               value={group}
-              className="userInput"
+              className="userInput mb-8"
             >
               <option value="">Select group to join</option>
               {groups.length === 0 ? (
@@ -162,15 +165,6 @@ const Cart = () => {
                 ))
               )}
             </select>
-
-            <label className="userInputHeading">Name: </label>
-            <b>{name}</b>
-
-            <label className="userInputHeading">Residence: </label>
-            <b>{residence}</b>
-
-            <label className="userInputHeading">Telegram handle: </label>
-            <b>{tele}</b>
 
             <button type="submit" className="button" onSubmit={handleSubmit}>
               Submit order

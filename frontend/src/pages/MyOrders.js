@@ -35,10 +35,10 @@ const MyOrders = () => {
 
   return (
     <div>
-      <h1>My Orders</h1>
+      <h2 className="mt-4 ml-4 mb-4 text-3xl font-semibold">My Orders</h2>
       {error && <div className="error">{error}</div>}
       {orders.length === 0 ? (
-        <div>No orders found</div>
+        <div className="ml-4">No orders found.</div>
       ) : (
         <div>
           {orders.map(order => (
