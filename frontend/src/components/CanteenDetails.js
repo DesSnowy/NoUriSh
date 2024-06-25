@@ -15,7 +15,7 @@ const CanteenDetails = ({ canteen }) => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Box shadow for depth
         }}
       >
-        <div className="ml-4 bg-white bg-opacity-90 p-8 w-60 rounded-lg shadow-lg">
+        <div className="ml-4 bg-white bg-opacity-90 p-8 w-60 rounded-lg shadow-lg space-y-2">
           <h1 className="text-4xl font-bold">{canteen.name}</h1>
           <p className="text-lg">Active Groups: {canteen.activeGroups}</p>
           <button
