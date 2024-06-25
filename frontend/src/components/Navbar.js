@@ -9,6 +9,7 @@ const Navbar = () => {
 
     const handleClick = () => {
         logout()
+        window.location.href = '/';
     }
 
     return (
