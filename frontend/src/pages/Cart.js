@@ -3,21 +3,21 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { toast } from "react-toastify";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Cart = () => {
   const { user } = useAuthContext();
   const { cartItems, dispatch } = useContext(CartContext);
-  const { canteenId } = useParams();
 
   const [name, setName] = useState("");
   const [residence, setResidence] = useState("");
   const [tele, setTele] = useState("");
   console.log(cartItems);
   const [total, setTotal] = useState(0);
-  const [groups, setGroups] = useState([])
-  const [group, setGroup] = useState(0)
+  const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -37,20 +37,15 @@ const Cart = () => {
       }
     };
 
-    if (user) {
-      fetchProfile();
-    }
-    setTotal(0);
-    for (const item of cartItems) {
-      setTotal((total) => total + item.price * item.quantity);
-    }
-
     const fetchGroupOrders = async () => {
-      const response = await fetch(`${BASE_API_URL}/api/group/${canteenId}/`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_API_URL}/api/group/${cartItems[0].canteen_id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
       console.log(json);
 
@@ -58,58 +53,55 @@ const Cart = () => {
         setGroups(json);
       }
     };
+    setTotal(0);
+    for (const item of cartItems) {
+      setTotal((total) => total + item.price * item.quantity);
+    }
     if (user) {
+      fetchProfile();
+    }
+    if (user && cartItems.length > 0) {
       fetchGroupOrders();
     }
   }, [user, cartItems]);
 
   const handleRemove = (indexToRemove) => {
     dispatch({ type: "REMOVE_CART_PRODUCT", payload: indexToRemove });
+    toast.success("item successfully removed");
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      //array of orders
-      const orderItems = cartItems.map((item) => ({
-        canteen: item.canteen_id,
-        stall: item.stall_id,
-        foodItem: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        tele: tele,
-        group: group
-      }));
+    //array of orders
+    const orderItems = cartItems.map((item) => ({
+      canteen: item.canteen_name,
+      stall: item.stall_name,
+      foodItem: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      group: group,
+    }));
 
-      const orderDetails = {
-        orders: orderItems,
-        user: {
-          email: user.email,
-          name: name,
-          residence: residence,
-          tele: tele
-        }
-      };
+    //fetch request to post new data
+    const response = await fetch(`${BASE_API_URL}api/order/`, {
+      method: "POST",
+      body: JSON.stringify(orderItems),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    const json = await response.json();
 
-      //fetch request to post new data
-      const response = await fetch(`${BASE_API_URL}api/order/`, {
-        method: "POST",
-        body: JSON.stringify(orderDetails),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (!response.ok) {
-        setError(json.error);
-      }
-      if (response.ok) {
-        setError(null);
-        console.log("Order submitted successfully", json);
-      }
-  };  
+    if (!response.ok) {
+      setError(json.error);
+    }
+    if (response.ok) {
+      setError(null);
+      console.log("Order submitted successfully", json);
+    }
+  };
 
   return (
     <section className="mt-4 ml-10 mr-10">
@@ -156,11 +148,13 @@ const Cart = () => {
             >
               <option value="">Select group to join</option>
               {groups.length === 0 ? (
-                <option value="" disabled>No active groups!</option>
+                <option value="" disabled>
+                  No active groups!
+                </option>
               ) : (
-                groups.map(group => (
-                  <option key={group.group_id} value={group.group_id}>
-                    {group.group_id}
+                groups.map((group) => (
+                  <option key={group.id} value={group.id}>
+                    {group.id}
                   </option>
                 ))
               )}
