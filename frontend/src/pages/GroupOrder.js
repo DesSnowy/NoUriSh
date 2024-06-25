@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthContext } from "../hooks/useAuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -11,6 +13,8 @@ const GroupOrder = () => {
     const [email, setEmail] = useState("");
     const [canteen, setCanteen] = useState("");
     const [error, setError] = useState(null);
+    const [hasActiveOrder, setHasActiveOrder] = useState(false);
+    const [currCanteen, setCurrCanteen] = useState("")
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -26,29 +30,43 @@ const GroupOrder = () => {
             setEmail(json.email);
           }
         };
-        if (user) {
-          fetchProfile();
-        }
 
         const fetchCanteens = async () => {
-            const response = await fetch(`${BASE_API_URL}/api/canteen/`, {
-              headers: {
-                Authorization: `Bearer ${user.token}`,
-              },
-            });
-            const json = await response.json(); //array of canteen objects
-            console.log(json);
+          const response = await fetch(`${BASE_API_URL}/api/canteen/`, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          const json = await response.json(); //array of canteen objects
+          console.log(json);
 
-            if (response.ok) {
-              setCanteens(json);
-            }
-          };
-          if (user) {
-            fetchCanteens();
+          if (response.ok) {
+            setCanteens(json);
           }
+        };
+
+        const checkActiveGroupOrder = async () => {
+          const response = await fetch(`${BASE_API_URL}/api/group/`, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          const json = await response.json();
+    
+          if (response.ok && json.isActive && json.status === 'TRUE') {
+            setHasActiveOrder(true);
+            setCurrCanteen(json.canteen_id)
+          }
+        };
+    
+        if (user) {
+          fetchProfile();
+          fetchCanteens();
+          checkActiveGroupOrder();
+        }
     }, [user]);
 
-    const handleSubmit = async (e) => {
+    const handleOpenOrder = async (e) => {
         e.preventDefault();
     
         const details = { canteen_id: canteen, residence, email }; 
@@ -70,32 +88,68 @@ const GroupOrder = () => {
         if (response.ok) {
           setCanteen("");
           setError(null);
+          toast.success("Group order created");
           console.log("Group order created successfully", json);
+          setHasActiveOrder(true);
         }
     };  
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <select
-          onChange={(e) => setCanteen(e.target.value)}
-          value={canteen}
-          className="userInput h-10 w-80 ml-4 mt-4 mb-5"
-        >
-          <option value="">Select canteen</option>
-          {canteens.map((canteen) => (
-            <option key={canteen.id} value={canteen.id}>
-              {canteen.name}
-            </option>
-          ))}
-        </select>
+    const handleCloseOrder = async (e) => {
+      e.preventDefault()
 
-        <button type="submit" className="button ml-4">
-          Start group order
-        </button>
-        {error && <div className="error">{error}</div>}
-      </form>
-    </div>
+      const response = await fetch(`${BASE_API_URL}/api/user/`, {
+        method: "PATCH",
+        body: JSON.stringify(false),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setHasActiveOrder(false)
+        setError(null);
+      }
+    }
+
+  return (
+    <>
+      {hasActiveOrder ? (
+        <div>
+          <p className='font-medium ml-4 mb-4 mt-4'>Your group order at {currCanteen} is currently open.</p>
+          <button className='button ml-4' onSubmit={handleCloseOrder}>
+            Close group order
+          </button>
+          {error && <div className="error">{error}</div>}
+        </div>
+      ) : (
+        <div>
+          <form onSubmit={handleOpenOrder}>
+            <select
+              onChange={(e) => setCanteen(e.target.value)}
+              value={canteen}
+              className="userInput h-10 w-80 ml-4 mt-4 mb-5"
+            >
+              <option value="">Select canteen</option>
+              {canteens.map((canteen) => (
+                <option key={canteen.id} value={canteen.id}>
+                  {canteen.name}
+                </option>
+              ))}
+            </select>
+
+            <button type="submit" className="button ml-4">
+              Start group order
+            </button>
+            {error && <div className="error">{error}</div>}
+          </form>
+        </div>
+      )}
+    </>
   );
 }
 
