@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { toast } from "react-toastify";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -16,8 +17,8 @@ const Cart = () => {
   const [tele, setTele] = useState("");
   console.log(cartItems);
   const [total, setTotal] = useState(0);
-  const [groups, setGroups] = useState([])
-  const [group, setGroup] = useState(0)
+  const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -65,51 +66,52 @@ const Cart = () => {
 
   const handleRemove = (indexToRemove) => {
     dispatch({ type: "REMOVE_CART_PRODUCT", payload: indexToRemove });
+    toast.success("item successfully removed");
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      //array of orders
-      const orderItems = cartItems.map((item) => ({
-        canteen: item.canteen_id,
-        stall: item.stall_id,
-        foodItem: item.name,
-        price: item.price,
-        quantity: item.quantity,
+    //array of orders
+    const orderItems = cartItems.map((item) => ({
+      canteen: item.canteen_id,
+      stall: item.stall_id,
+      foodItem: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      tele: tele,
+      group: group,
+    }));
+
+    const orderDetails = {
+      orders: orderItems,
+      user: {
+        email: user.email,
+        name: name,
+        residence: residence,
         tele: tele,
-        group: group
-      }));
+      },
+    };
 
-      const orderDetails = {
-        orders: orderItems,
-        user: {
-          email: user.email,
-          name: name,
-          residence: residence,
-          tele: tele
-        }
-      };
+    //fetch request to post new data
+    const response = await fetch(`${BASE_API_URL}api/order/`, {
+      method: "POST",
+      body: JSON.stringify(orderDetails),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    const json = await response.json();
 
-      //fetch request to post new data
-      const response = await fetch(`${BASE_API_URL}api/order/`, {
-        method: "POST",
-        body: JSON.stringify(orderDetails),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (!response.ok) {
-        setError(json.error);
-      }
-      if (response.ok) {
-        setError(null);
-        console.log("Order submitted successfully", json);
-      }
-  };  
+    if (!response.ok) {
+      setError(json.error);
+    }
+    if (response.ok) {
+      setError(null);
+      console.log("Order submitted successfully", json);
+    }
+  };
 
   return (
     <section className="mt-8">
@@ -153,9 +155,11 @@ const Cart = () => {
             >
               <option value="">Select group to join</option>
               {groups.length === 0 ? (
-                <option value="" disabled>No active groups!</option>
+                <option value="" disabled>
+                  No active groups!
+                </option>
               ) : (
-                groups.map(group => (
+                groups.map((group) => (
                   <option key={group.group_id} value={group.group_id}>
                     {group.group_id}
                   </option>
