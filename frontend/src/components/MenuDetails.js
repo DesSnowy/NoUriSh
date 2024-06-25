@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MenuDetails = ({ item }) => {
-  const { dispatch } = useContext(CartContext);
+  const { dispatch, cartItems } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -12,6 +13,14 @@ const MenuDetails = ({ item }) => {
   }
 
   function handleAddToCart() {
+    if (cartItems.length !== 0) {
+      const storedCanteen = cartItems[0].canteen_name;
+      const newCanteen = item.canteen_name;
+      if (storedCanteen !== newCanteen) {
+        setShowPopup(false);
+        return toast.error("Canteen should be the same");
+      }
+    }
     dispatch({ type: "ADD_TO_CART", payload: { item, quantity } });
     setShowPopup(false);
     toast.success("Added to cart");
