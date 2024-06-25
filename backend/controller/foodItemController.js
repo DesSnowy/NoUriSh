@@ -6,7 +6,7 @@ const getFoodItems = async (req, res) => {
     const { stallId } = req.params;
     console.log("fetching items");
     const results = await db.query(
-      `SELECT food.food_id, food.food_name, food.price, food.description, stall.stall_name, canteen.canteen_id, canteen.canteen_name
+      `SELECT food.food_id, food.food_name, food.price, food.description, stall.stall_name, canteen.canteen_name, canteen.canteen_id
       FROM "food"
       INNER JOIN "stall" ON food.stall_id = stall.stall_id
       INNER JOIN "canteen" ON stall.canteen_id = canteen.canteen_id
