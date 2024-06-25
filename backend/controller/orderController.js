@@ -30,17 +30,22 @@ const getSingleOrder = async (req, res) => {
 
 //CREATE a new order
 const createOrder = async (req, res) => {
-  const { canteen, stall, foodItem, price, tele } = req.body;
+  const orderItems = req.body;
+  const email = req.email;
   try {
-    if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
-      return res.status(500).json({ error: "all fields must be filled" });
+    for (const order of orderItems) {
+      const { canteen, stall, foodItem, price, quantity, group } = order;
+      if (!checkAllNotNull(canteen, stall, foodItem, price, quantity, group)) {
+        return res.status(500).json({ error: "all fields must be filled" });
+      }
+      const results = await db.query(
+        `INSERT INTO "order" (canteen, stall, fooditem, price, quantity, group_id, user_email, created_time) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
+        [canteen, stall, foodItem, price, quantity, group, email]
+      );
     }
-    const results = await db.query(
-      'INSERT INTO "order" (canteen, stall, fooditem, price, tele) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [canteen, stall, foodItem, price, tele]
-    );
-    const order = results.rows[0];
-    res.status(200).json(mapOrderForView(order));
+    console.log(`${orderItems.length} item added `);
+    res.status(200).json(`${orderItems.length} item added `);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);

@@ -44,13 +44,15 @@ CREATE TABLE "group" (
 
 CREATE TABLE "order" (
     order_id SERIAL PRIMARY KEY,
-    food_id int,
+    canteen VARCHAR(50),
+    stall VARCHAR(50),
+    fooditem VARCHAR(50),
     user_email VARCHAR(255),
-    group_id int,
-    quantity int,
-    CONSTRAINT fk_food FOREIGN KEY(food_id) REFERENCES food(food_id),
-    CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email),
-    CONSTRAINT fk_group FOREIGN KEY(group_id) REFERENCES "group"(group_id)
+    group_id INT,
+    quantity INT,
+    price FLOAT,
+    created_time TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
 );
 
 INSERT INTO canteen (canteen_name, canteen_image)VALUES

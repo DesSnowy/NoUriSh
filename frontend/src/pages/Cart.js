@@ -82,9 +82,10 @@ const Cart = () => {
       quantity: item.quantity,
       group: group,
     }));
+    console.log(orderItems);
 
     //fetch request to post new data
-    const response = await fetch(`${BASE_API_URL}api/order/`, {
+    const response = await fetch(`${BASE_API_URL}/api/order/`, {
       method: "POST",
       body: JSON.stringify(orderItems),
       headers: {
@@ -99,13 +100,16 @@ const Cart = () => {
     }
     if (response.ok) {
       setError(null);
-      console.log("Order submitted successfully", json);
+      dispatch({ type: "CLEAR_CART" });
+      toast.success("Order submitted successfully");
     }
   };
 
   return (
     <section className="mt-4 ml-10 mr-10">
-      <h3 className="text-5xl font-semibold text-blue-500 border-b-2 border-gray-400 py-2 mb-4">Cart</h3>
+      <h3 className="text-5xl font-semibold text-blue-500 border-b-2 border-gray-400 py-2 mb-4">
+        Cart
+      </h3>
       <div className="grid gap-4 grid-cols-2">
         <div>
           {cartItems?.length === 0 && <div>No items in cart</div>}
@@ -129,7 +133,6 @@ const Cart = () => {
                   Remove
                 </button>
               </div>
-
             ))}
           <div className="py-2 text-right pr-16">
             <span className="text-gray-500">Total price:</span>
@@ -139,8 +142,8 @@ const Cart = () => {
           </div>
         </div>
         <div className="bg-gray-300 p-4 rounded-lg space-y-3">
-          <h2 className='text-xl font-semibold'>Checkout</h2>
-          <form>
+          <h2 className="text-xl font-semibold">Checkout</h2>
+          <form onSubmit={handleSubmit}>
             <select
               onChange={(e) => setGroup(e.target.value)}
               value={group}
@@ -160,7 +163,7 @@ const Cart = () => {
               )}
             </select>
 
-            <button type="submit" className="button" onSubmit={handleSubmit}>
+            <button type="submit" className="button">
               Submit order
             </button>
             {error && <div className="error">{error}</div>}

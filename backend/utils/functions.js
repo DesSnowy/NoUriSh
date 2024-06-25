@@ -1,11 +1,13 @@
 const mapOrderForView = (order) => {
   return {
-    id: order.id,
+    id: order.order_id,
     canteen: order.canteen,
     stall: order.stall,
     foodItem: order.fooditem,
+    quantity: order.quantity,
+    group: order.group_id,
     price: order.price,
-    tele: order.tele,
+    createdAt: order.created_time,
   };
 };
 

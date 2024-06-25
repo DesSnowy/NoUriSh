@@ -34,7 +34,7 @@ app.use("/api/user", userRoutes);
 
 app.use(authoriseUser);
 
-app.use("/api/orders", orderRoutes);
+app.use("/api/order", orderRoutes);
 
 app.use("/api/canteen", canteenRoutes);
 

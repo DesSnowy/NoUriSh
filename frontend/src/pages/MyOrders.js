@@ -11,7 +11,7 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`${BASE_API_URL}/api/orders/`, {
+        const response = await fetch(`${BASE_API_URL}/api/order/`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
