@@ -12,7 +12,18 @@ const selectUserFromEmail = async (email) => {
 };
 
 const selectAllGroups = async () => {
-  const results = await db.query('SELECT * from "group";');
+  const results = await db.query('SELECT * from "group" where status = true;');
+  return results.rows;
+};
+
+const selectActiveGroupsFromEmail = async (email) => {
+  const results = await db.query(
+    `SELECT "group".group_id, "group".canteen_id, "group".residence, "group".user_email, "group".status, canteen.canteen_name
+    FROM "group"
+    INNER JOIN canteen ON "group".canteen_id = canteen.canteen_id
+    WHERE "group".status = true AND "group".user_email = $1`,
+    [email]
+  );
   return results.rows;
 };
 
@@ -28,9 +39,19 @@ const insertGroup = async (email, canteen_id, residence) => {
   );
   return results.rows[0];
 };
+
+const closeGroupFromEmail = async (email) => {
+  const results = await db.query(
+    'UPDATE "group" SET status = false WHERE user_email = $1 RETURNING *',
+    [email]
+  );
+  return results.rows[0];
+};
 module.exports = {
   selectUserFromEmail,
   selectAllGroups,
   selectAllCanteens,
   insertGroup,
+  selectActiveGroupsFromEmail,
+  closeGroupFromEmail,
 };

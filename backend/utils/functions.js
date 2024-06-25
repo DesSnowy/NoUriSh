@@ -51,6 +51,8 @@ const mapGroupForView = (group) => {
     user: group.user_email,
     residence: group.residence,
     canteen_id: group.canteen_id,
+    canteen_name: group.canteen_name,
+    status: group.status,
   };
 };
 

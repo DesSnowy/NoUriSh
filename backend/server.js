@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user");
 const canteenRoutes = require("./routes/canteen");
 const stallRoutes = require("./routes/stall");
 const foodItemRoutes = require("./routes/foodItem");
-const groupGroutes = require("./routes/group");
+const groupRoutes = require("./routes/group");
 
 require("dotenv").config();
 
@@ -42,7 +42,7 @@ app.use("/api/stall", stallRoutes);
 
 app.use("/api/food", foodItemRoutes);
 
-app.use("/api/group", groupGroutes);
+app.use("/api/group", groupRoutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {

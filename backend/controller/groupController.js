@@ -2,6 +2,8 @@ const {
   selectAllGroups,
   insertGroup,
   selectUserFromEmail,
+  selectActiveGroupsFromEmail,
+  closeGroupFromEmail,
 } = require("../database/query");
 const { checkAllNotNull, mapGroupForView } = require("../utils/functions");
 
@@ -23,6 +25,22 @@ const getGroups = async (req, res) => {
   }
 };
 
+const getUserGroup = async (req, res) => {
+  console.log(req.email);
+  const email = req.email;
+  try {
+    const groups = await selectActiveGroupsFromEmail(email);
+    console.log(groups);
+    if (groups.length == 0) {
+      return res.status(200).json("user does not have any active orders");
+    }
+    return res.status(200).json(groups[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server error" });
+  }
+};
+
 const createGroup = async (req, res) => {
   const email = req.email;
   const { canteen_id, residence } = req.body;
@@ -38,4 +56,16 @@ const createGroup = async (req, res) => {
   }
 };
 
-module.exports = { getGroups, createGroup };
+const closeGroup = async (req, res) => {
+  const email = req.email;
+  try {
+    const group = await closeGroupFromEmail(email);
+    console.log("group closed");
+    res.status(200).json(mapGroupForView(group));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server error" });
+  }
+};
+
+module.exports = { getGroups, createGroup, getUserGroup, closeGroup };
