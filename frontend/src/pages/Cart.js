@@ -10,7 +10,6 @@ const BASE_API_URL = process.env.REACT_APP_API_URL;
 const Cart = () => {
   const { user } = useAuthContext();
   const { cartItems, dispatch } = useContext(CartContext);
-  const { canteenId } = useParams();
 
   const [name, setName] = useState("");
   const [residence, setResidence] = useState("");
@@ -38,20 +37,15 @@ const Cart = () => {
       }
     };
 
-    if (user) {
-      fetchProfile();
-    }
-    setTotal(0);
-    for (const item of cartItems) {
-      setTotal((total) => total + item.price * item.quantity);
-    }
-
     const fetchGroupOrders = async () => {
-      const response = await fetch(`${BASE_API_URL}/api/group/${canteenId}/`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        `${BASE_API_URL}/api/group/${cartItems[0].canteen_id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
       console.log(json);
 
@@ -59,7 +53,14 @@ const Cart = () => {
         setGroups(json);
       }
     };
+    setTotal(0);
+    for (const item of cartItems) {
+      setTotal((total) => total + item.price * item.quantity);
+    }
     if (user) {
+      fetchProfile();
+    }
+    if (user && cartItems.length > 0) {
       fetchGroupOrders();
     }
   }, [user, cartItems]);
@@ -74,29 +75,18 @@ const Cart = () => {
 
     //array of orders
     const orderItems = cartItems.map((item) => ({
-      canteen: item.canteen_id,
-      stall: item.stall_id,
+      canteen: item.canteen_name,
+      stall: item.stall_name,
       foodItem: item.name,
       price: item.price,
       quantity: item.quantity,
-      tele: tele,
       group: group,
     }));
-
-    const orderDetails = {
-      orders: orderItems,
-      user: {
-        email: user.email,
-        name: name,
-        residence: residence,
-        tele: tele,
-      },
-    };
 
     //fetch request to post new data
     const response = await fetch(`${BASE_API_URL}api/order/`, {
       method: "POST",
-      body: JSON.stringify(orderDetails),
+      body: JSON.stringify(orderItems),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
@@ -160,8 +150,8 @@ const Cart = () => {
                 </option>
               ) : (
                 groups.map((group) => (
-                  <option key={group.group_id} value={group.group_id}>
-                    {group.group_id}
+                  <option key={group.id} value={group.id}>
+                    {group.id}
                   </option>
                 ))
               )}

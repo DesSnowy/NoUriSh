@@ -12,10 +12,9 @@ const getGroups = async (req, res) => {
     const user = await selectUserFromEmail(email);
     const residence = user.residence;
     const groups = await selectAllGroups();
-
     const filteredGroups = groups
       .filter((group) => group.residence == residence)
-      .filter((group.canteen_id = canteenId));
+      .filter((group) => group.canteen_id == canteenId);
 
     res.status(200).json(filteredGroups.map(mapGroupForView));
   } catch (error) {

@@ -39,6 +39,7 @@ const mapItemForView = (item) => {
     id: item.food_id,
     stall_name: item.stall_name,
     canteen_name: item.canteen_name,
+    canteen_id: item.canteen_id,
   };
 };
 
