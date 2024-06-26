@@ -19,7 +19,7 @@ function App() {
   const { user } = useAuthContext();
 
   return (
-    <div className="h-screen bg-blue-100">
+    <div className="min-h-screen bg-blue-100">
       <BrowserRouter>
         <Navbar />
         <div className="pages">
