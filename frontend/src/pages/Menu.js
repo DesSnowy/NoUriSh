@@ -32,8 +32,6 @@ const Menu = () => {
 
   return (
     <div>
-      <h1>{canteenId}</h1>
-      <h2>{stallId}</h2>
       <div className="menu">
         {menu && menu.map((item) => <MenuDetails key={item.id} item={item} />)}
       </div>

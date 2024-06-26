@@ -9,15 +9,19 @@ const CanteenDetails = ({ canteen }) => {
 
     return (
       <div
-        className="h-screen flex items-center bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${canteen.image})` }}
+        className="h-60 w-screen ml-4 max-w-screen-sm flex items-center mb-4 justify-left bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${canteen.image})`,
+          borderRadius: "1rem", // Rounded corners
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Box shadow for depth
+        }}
       >
-        <div className="flex flex-row justify-around space-x-5">
-          <p>
-            <button onClick={handleNavigate} className="text-3xl">
-              {canteen.name}
-            </button>
-          </p>
+        <div className="ml-4 bg-white bg-opacity-90 p-8 w-60 rounded-lg shadow-lg space-y-2">
+          <h1 className="text-4xl font-bold">{canteen.name}</h1>
+          <p className="text-lg">Active Groups: {canteen.activeGroups}</p>
+          <button onClick={handleNavigate} className="button">
+            View Stalls
+          </button>
         </div>
       </div>
     );

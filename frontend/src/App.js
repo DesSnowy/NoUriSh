@@ -1,23 +1,25 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
+import { ToastContainer } from "react-toastify";
 
 //pages & components
-import Home from './pages/Home'
-import Navbar from './components/Navbar'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Profile from './pages/Profile'
-import MyOrders from './pages/MyOrders'
-import Cart from './pages/Cart'
-import Canteens from './pages/Canteens'
-import Stalls from './pages/Stalls'
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
+import MyOrders from "./pages/MyOrders";
+import Cart from "./pages/Cart";
+import Canteens from "./pages/Canteens";
+import Stalls from "./pages/Stalls";
+import GroupOrder from "./pages/GroupOrder";
 import Menu from "./pages/Menu";
 
 function App() {
-  const { user } = useAuthContext()
+  const { user } = useAuthContext();
 
   return (
-    <div className="h-screen bg-blue-100">
+    <div className="min-h-screen bg-blue-100">
       <BrowserRouter>
         <Navbar />
         <div className="pages">
@@ -40,9 +42,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/grouporder" element={<GroupOrder />} />
           </Routes>
         </div>
       </BrowserRouter>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 }

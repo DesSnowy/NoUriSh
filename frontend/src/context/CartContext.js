@@ -1,5 +1,4 @@
-import { createContext, useState, useReducer } from "react";
-import { toast } from 'react-toastify';
+import { createContext, useReducer } from "react";
 
 export const CartContext = createContext();
 
@@ -7,8 +6,6 @@ export const cartReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TO_CART":
       const { item, quantity } = action.payload;
-      console.log(item);
-      console.log(state);
       const existingItem = state.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
         return state.map((cartItem) =>

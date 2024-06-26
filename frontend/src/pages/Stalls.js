@@ -13,7 +13,7 @@ const Stalls = () => {
   useEffect(() => {
     // fetch stalls for the given canteen ID
     const fetchStalls = async () => {
-      const response = await fetch(`${BASE_API_URL}/api/stall/${canteenId}`, {
+      const response = await fetch(`${BASE_API_URL}/api/stall/${canteenId}/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -31,7 +31,6 @@ const Stalls = () => {
 
   return (
     <div>
-      <h1>{canteenId}</h1>
       <div className="stalls">
         {stalls &&
           stalls.map((stall) => (

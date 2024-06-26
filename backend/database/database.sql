@@ -10,15 +10,6 @@ CREATE TABLE "user" (
     residence VARCHAR(50)
 );
 
-CREATE TABLE "order" (
-    id SERIAL PRIMARY KEY,
-    canteen VARCHAR(50) NOT NULL,
-    stall VARCHAR(50) NOT NULL,
-    food_item VARCHAR(255) NOT NULL,
-    price FLOAT NOT NULL,
-    tele VARCHAR(50) NOT NULL
-);
-
 CREATE TABLE "canteen" (
     canteen_id SERIAL PRIMARY KEY,
     canteen_name VARCHAR(50),
@@ -41,16 +32,49 @@ CREATE TABLE "food" (
      CONSTRAINT fk_stall FOREIGN KEY(stall_id) REFERENCES stall(stall_id)
 );
 
-INSERT INTO canteen VALUES
-(1, 'frontier', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Frontier-Canteen-1024x684.jpg'),
-(2, 'deck', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/deck.jpg');
+CREATE TABLE "group" (
+    group_id SERIAL PRIMARY KEY,
+    canteen_id int,
+    residence VARCHAR(50),
+    status BOOLEAN,
+    user_email VARCHAR(255),
+    CONSTRAINT fk_canteen FOREIGN KEY(canteen_id) REFERENCES canteen(canteen_id),
+    CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
+);
 
-INSERT INTO stall VALUES
-(1, 'chinese_frontier', 1),
-(2, 'korean_frontier', 1),
-(3, 'western_deck', 2),
-(4, 'pasta_deck', 2);
+CREATE TABLE "order" (
+    order_id SERIAL PRIMARY KEY,
+    canteen VARCHAR(50),
+    stall VARCHAR(50),
+    fooditem VARCHAR(50),
+    user_email VARCHAR(255),
+    group_id INT,
+    quantity INT,
+    price FLOAT,
+    created_time TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
+);
 
-INSERT INTO food VALUES
-(1, 'chicken rice', 3.5, 1, 'chicken rice description'),
-(2, 'chicken noodle',3.5, 1, 'some good noodles');
+INSERT INTO canteen (canteen_name, canteen_image)VALUES
+('frontier', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Frontier-Canteen-1024x684.jpg'),
+('deck', 'https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/deck.jpg');
+
+INSERT INTO stall (stall_name, canteen_id) VALUES
+('chinese_frontier', 1),
+('korean_frontier', 1),
+('western_deck', 2),
+('pasta_deck', 2);
+
+INSERT INTO food (food_name, price, stall_id, description) VALUES
+('Chicken Rice', 3.5, 1, 'Tender chicken served with aromatic rice and savory sauce.'),
+('Chicken Noodle',3.5, 1, 'Succulent chicken with flavorful noodles in a savory broth.'),
+('Korean Chicken', 5, 2, 'Crispy, spicy Korean-style chicken with a tangy sauce.'),
+('Fish N Chip', 4, 3, 'Crispy battered fish served with golden fries and tartar sauce.'),
+('Carbonara Pasta', 5, 4, 'Creamy pasta with pancetta, egg, and Parmesan cheese.');
+
+INSERT INTO "user" VALUES
+('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP');
+
+INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES
+(1, 'PGP', true, 'test123@test.com'),
+(2, 'Tembusu', true, 'test123@test.com');

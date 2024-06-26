@@ -20,7 +20,7 @@
     }
 
     .error {
-        @apply text-pink-600 text-sm
+        @apply text-red-500 font-medium
     }
 
     .itemDesc {

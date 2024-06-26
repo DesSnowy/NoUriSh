@@ -1,26 +1,20 @@
-const OrderDetails = ({ order }) => {
-    return (
-      <div className="bg-red-100 flex flex-col m-5 space-y-3 rounded-lg p-3">
-        <div className="flex flex-row justify-around space-x-5">
-          <p>
-            <strong>Canteen: </strong>
-            {order.canteen}
-          </p>
-          <p>
-            <strong>Stall: </strong>
-            {order.stall}
-          </p>
-          <p>
-            <strong>Food item: </strong>
-            {order.foodItem}
-          </p>
-        </div>
-        <div className="flex flex-row justify-around space-x-2">
-          <p>Price: {order.price}</p>
-          <p>Telegram handle: {order.tele}</p>
-        </div>
-      </div>
-    );
-}
+import React from 'react';
 
-export default OrderDetails
+const OrderDetails = ({ order }) => {
+  return (
+    <div key={order.id} className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+      <h3 className="font-semibold text-lg text-blue-400">Order ID: {order.id}</h3>
+      <div className="text-gray-700">
+        <p className="mb-1"><span className="font-medium">Canteen:</span> {order.canteen}</p>
+        <p className="mb-1"><span className="font-medium">Stall:</span> {order.stall}</p>
+        <p className="mb-1"><span className="font-medium">Food Item:</span> {order.foodItem}</p>
+        <p className="mb-1"><span className="font-medium">Quantity:</span> {order.quantity}</p>
+        <p className="mb-1"><span className="font-medium">Price:</span> ${(order.price*order.quantity).toFixed(2)}</p>
+        <p className="mb-1"><span className="font-medium">Group:</span> {order.group}</p>
+        <p className="mb-1"><span className="font-medium">Ordered at:</span> {new Date(order.createdAt).toLocaleString()}</p>
+      </div>
+    </div>
+  );
+};
+
+export default OrderDetails;

@@ -1,11 +1,13 @@
 const mapOrderForView = (order) => {
   return {
-    id: order.id,
+    id: order.order_id,
     canteen: order.canteen,
     stall: order.stall,
     foodItem: order.fooditem,
+    quantity: order.quantity,
+    group: order.group_id,
     price: order.price,
-    tele: order.tele,
+    createdAt: order.created_time,
   };
 };
 
@@ -20,6 +22,7 @@ const mapCanteenForView = (canteen) => {
     id: canteen.canteen_id,
     name: canteen.canteen_name,
     image: canteen.canteen_image,
+    activeGroups: canteen.activeGroup,
   };
 };
 
@@ -37,6 +40,19 @@ const mapItemForView = (item) => {
     description: item.description,
     id: item.food_id,
     stall_name: item.stall_name,
+    canteen_name: item.canteen_name,
+    canteen_id: item.canteen_id,
+  };
+};
+
+const mapGroupForView = (group) => {
+  return {
+    id: group.group_id,
+    user: group.user_email,
+    residence: group.residence,
+    canteen_id: group.canteen_id,
+    canteen_name: group.canteen_name,
+    status: group.status,
   };
 };
 
@@ -46,4 +62,5 @@ module.exports = {
   mapCanteenForView,
   mapStallForView,
   mapItemForView,
+  mapGroupForView,
 };

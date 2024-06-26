@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MenuDetails = ({ item }) => {
-  const { dispatch } = useContext(CartContext);
+  const { dispatch, cartItems } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -12,6 +13,14 @@ const MenuDetails = ({ item }) => {
   }
 
   function handleAddToCart() {
+    if (cartItems.length !== 0) {
+      const storedCanteen = cartItems[0].canteen_name;
+      const newCanteen = item.canteen_name;
+      if (storedCanteen !== newCanteen) {
+        setShowPopup(false);
+        return toast.error("Canteen should be the same");
+      }
+    }
     dispatch({ type: "ADD_TO_CART", payload: { item, quantity } });
     setShowPopup(false);
     toast.success("Added to cart");
@@ -30,54 +39,57 @@ const MenuDetails = ({ item }) => {
         >
           <div
             onClick={(ev) => ev.stopPropagation()}
-            className="bg-white p-4 rounded-lg overflow-scroll"
+            className="bg-white p-6 rounded-lg shadow-lg overflow-auto max-w-md mx-auto"
           >
-            <h2 className="text-lg font-bold text-center">{item.name}</h2>
-            <p>{item.price}</p>
-            <p className="itemDesc">{item.description}</p>
-            <div>
-              <label htmlFor="quantity">Quantity: </label>
+            <h2 className="text-lg font-bold text-center mb-4">{item.name}</h2>
+            <p className="text-lg font-semibold text-gray-800 mb-2">${item.price.toFixed(2)}</p>
+            <p className="text-gray-600 mb-4">{item.description}</p>
+            <div className="mb-4">
+              <label htmlFor="quantity" className="block text-gray-700 font-medium mb-2">Quantity:</label>
               <input
                 id="quantity"
                 type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 min="1"
-                className="quantityInput"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <button
-              className="primary sticky bottom-2 button"
-              type="button"
-              onClick={handleAddToCart}
-            >
-              Add to cart
-            </button>
-            <button
-              className="button"
-              type="button"
-              onClick={() => setShowPopup(false)}
-            >
-              Cancel
-            </button>
+            <div className="flex justify-between mt-6">
+              <button
+                className="primary sticky bottom-2 button"
+                type="button"
+                onClick={handleAddToCart}
+              >
+                Add to cart
+              </button>
+              <button
+                className="button"
+                type="button"
+                onClick={() => setShowPopup(false)}
+              >
+                Cancel
+              </button>
+              </div>
           </div>
         </div>
       )}
 
-      <div className="h-screen flex items-center bg-cover bg-center bg-no-repeat">
-        <div className="flex flex-row justify-around space-x-5">
-          <h3>{item.name}</h3>
-          <p>{item.price}</p>
-          <p className="itemDesc">{item.description}</p>
-          <button
-            className="button"
-            type="button"
-            onClick={handleSelectQuantity}
-          >
-            Select quantity
-          </button>
+      <div className="ml-4 mt-4">
+        <div className="border-b-2 border-gray-400 py-4">
+          <div className="flex flex-col space-y-2">
+            <div className="flex flex-row space-x-11 items-center">
+              <h3 className="font-semibold">{item.name}</h3>
+              <p className="text-gray-500">${item.price.toFixed(2)}</p>
+              <button className="button" onClick={handleSelectQuantity}>
+                Select quantity
+              </button>
+            </div>
+            <p className="text-gray-700">{item.description}</p>
+          </div>
         </div>
       </div>
+
     </>
   );
 };
