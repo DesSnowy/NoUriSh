@@ -66,8 +66,11 @@ INSERT INTO stall (stall_name, canteen_id) VALUES
 ('pasta_deck', 2);
 
 INSERT INTO food (food_name, price, stall_id, description) VALUES
-('chicken rice', 3.5, 1, 'chicken rice description'),
-('chicken noodle',3.5, 1, 'some good noodles');
+('Chicken Rice', 3.5, 1, 'Tender chicken served with aromatic rice and savory sauce.'),
+('Chicken Noodle',3.5, 1, 'Succulent chicken with flavorful noodles in a savory broth.'),
+('Korean Chicken', 5, 2, 'Crispy, spicy Korean-style chicken with a tangy sauce.'),
+('Fish N Chip', 4, 3, 'Crispy battered fish served with golden fries and tartar sauce.'),
+('Carbonara Pasta', 5, 4, 'Creamy pasta with pancetta, egg, and Parmesan cheese.');
 
 INSERT INTO "user" VALUES
 ('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP');
