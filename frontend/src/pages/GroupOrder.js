@@ -14,7 +14,7 @@ const GroupOrder = () => {
     const [canteen, setCanteen] = useState("");
     const [error, setError] = useState(null);
     const [hasActiveOrder, setHasActiveOrder] = useState(false);
-    const [currCanteen, setCurrCanteen] = useState("")
+    const [currCanteen, setCurrCanteen] = useState("");
 
     useEffect(() => {
       const fetchProfile = async () => {
@@ -68,9 +68,8 @@ const GroupOrder = () => {
 
     const handleOpenOrder = async (e) => {
       e.preventDefault();
-
       const details = { canteen_id: canteen, residence, email };
-
+      console.log(details);
       //fetch request to post new data
       const response = await fetch(`${BASE_API_URL}/api/group/`, {
         method: "POST",
@@ -91,7 +90,7 @@ const GroupOrder = () => {
         toast.success("Group order created");
         console.log("Group order created successfully", json);
         setHasActiveOrder(true);
-        setCurrCanteen(canteen);
+        setCurrCanteen(canteens.filter((c) => c.id == canteen)[0].name);
       }
     };
 
