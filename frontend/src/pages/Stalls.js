@@ -13,7 +13,7 @@ const Stalls = () => {
   useEffect(() => {
     // fetch stalls for the given canteen ID
     const fetchStalls = async () => {
-      const response = await fetch(`${BASE_API_URL}/api/stall/${canteenId}`, {
+      const response = await fetch(`${BASE_API_URL}/api/stall/${canteenId}/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
