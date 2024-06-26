@@ -72,6 +72,13 @@ const Cart = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (cartItems.length == 0) {
+      return toast.error("no item in cart");
+    }
+
+    if (group == 0) {
+      return toast.error("Please select a group");
+    }
 
     //array of orders
     const orderItems = cartItems.map((item) => ({
