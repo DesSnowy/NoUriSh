@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from "../hooks/useAuthContext";
+import OrderDetails from '../components/OrderDetails';
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -35,23 +36,14 @@ const MyOrders = () => {
 
   return (
     <div>
-      <h2 className="mt-4 ml-4 mb-4 text-3xl font-semibold">My Orders</h2>
+      <h2 className="mt-4 ml-10 mb-4 text-3xl font-semibold">My Orders</h2>
       {error && <div className="error">{error}</div>}
       {orders.length === 0 ? (
         <div className="ml-4">No orders found.</div>
       ) : (
-        <div>
+        <div className="ml-4 mr-4 flex flex-wrap">
           {orders.map(order => (
-            <div key={order.id} className="order">
-              <h3>Order ID: {order.id}</h3>
-              <p>Canteen: {order.canteen}</p>
-              <p>Stall: {order.stall}</p>
-              <p>Food Item: {order.foodItem}</p>
-              <p>Quantity: {order.quantity}</p>
-              <p>Price: ${order.price}</p>
-              <p>Group: {order.group}</p>
-              <p>Ordered at: {new Date(order.createdAt).toLocaleString()}</p>
-            </div>
+            <OrderDetails key={order.id} order = {order} />
           ))}
         </div>
       )}

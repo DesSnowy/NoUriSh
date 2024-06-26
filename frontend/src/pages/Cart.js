@@ -114,7 +114,7 @@ const Cart = () => {
 
   return (
     <section className="mt-4 ml-10 mr-10">
-      <h3 className="text-5xl font-semibold text-blue-500 border-b-2 border-gray-400 py-2 mb-4">
+      <h3 className="text-5xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
         Cart
       </h3>
       <div className="grid gap-4 grid-cols-2">
