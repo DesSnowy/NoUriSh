@@ -3,7 +3,11 @@ const { mapOrderForView, checkAllNotNull } = require("../utils/functions");
 //GET all orders
 const getOrders = async (req, res) => {
   try {
-    const results = await db.query('select * from "order";');
+    const email = req.email;
+    const results = await db.query(
+      'select * from "order" WHERE user_email = $1;',
+      [email]
+    );
     const orders = results.rows;
     res.status(200).json(orders.map(mapOrderForView));
   } catch (error) {
