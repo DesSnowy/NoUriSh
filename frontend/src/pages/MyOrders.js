@@ -42,8 +42,10 @@ const MyOrders = () => {
         <div className="ml-4">No orders found.</div>
       ) : (
         <div className="ml-4 mr-4 flex flex-wrap">
-          {orders.map(order => (
-            <OrderDetails key={order.id} order = {order} />
+          {orders.slice().reverse().map(order => (
+            <div className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+              <OrderDetails key={order.id} order = {order} />
+            </div>
           ))}
         </div>
       )}

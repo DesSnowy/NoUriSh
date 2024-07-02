@@ -71,6 +71,7 @@ const loginUser = async (req, res) => {
 
 const getUserDetail = async (req, res) => {
   const email = req.email;
+
   try {
     const results = await db.query('SELECT * from "user" where email = $1', [
       email,
@@ -83,6 +84,24 @@ const getUserDetail = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server error!" });
+  }
+};
+
+const getUserDetailByEmail = async (req, res) => {
+  const userEmail = req.params.userEmail;
+
+  try {
+    const results = await db.query('SELECT * FROM "user" WHERE email = $1', [userEmail]);
+
+    if (results.rows.length === 0) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    const user = results.rows[0];
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -108,5 +127,6 @@ module.exports = {
   signupUser,
   loginUser,
   getUserDetail,
+  getUserDetailByEmail,
   updateUserDetail,
 };

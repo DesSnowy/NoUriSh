@@ -1,8 +1,9 @@
 import React from 'react';
 
 const OrderDetails = ({ order }) => {
+
   return (
-    <div key={order.id} className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+    <div key={order.id}>
       <h3 className="font-semibold text-lg text-blue-400">Order ID: {order.id}</h3>
       <div className="text-gray-700">
         <p className="mb-1"><span className="font-medium">Canteen:</span> {order.canteen}</p>

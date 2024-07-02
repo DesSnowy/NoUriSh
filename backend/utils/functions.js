@@ -8,6 +8,7 @@ const mapOrderForView = (order) => {
     group: order.group_id,
     price: order.price,
     createdAt: order.created_time,
+    userEmail: order.user_email,
   };
 };
 

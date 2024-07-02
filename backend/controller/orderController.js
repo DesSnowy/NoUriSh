@@ -28,6 +28,26 @@ const getSingleOrder = async (req, res) => {
   }
 };
 
+//GET orders with a specific group ID
+const getOrdersByGroupId = async (req, res) => {
+  const groupId = req.params.groupId;
+
+  try {
+    const results = await db.query(
+      `SELECT o.*, u.name as user_name, u.email as user_email
+      FROM "order" o
+      JOIN "user" u ON o.user_email = u.email
+      WHERE o.group_id = $1;`, 
+      [groupId]
+    );
+    const orders = results.rows;
+    res.status(200).json(orders.map(mapOrderForView));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 //CREATE a new order
 const createOrder = async (req, res) => {
   const orderItems = req.body;
@@ -86,6 +106,7 @@ const updateOrder = async (req, res) => {
 module.exports = {
   getOrders,
   getSingleOrder,
+  getOrdersByGroupId,
   createOrder,
   deleteOrder,
   updateOrder,

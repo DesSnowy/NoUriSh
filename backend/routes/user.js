@@ -6,6 +6,7 @@ const {
   loginUser,
   signupUser,
   getUserDetail,
+  getUserDetailByEmail,
   updateUserDetail,
 } = require("../controller/userController");
 
@@ -21,6 +22,9 @@ router.post("/signup", signupUser);
 router.use(authoriseUser);
 
 router.get("/", getUserDetail);
+
+//get a user's profile using their email
+router.get('/:userEmail', getUserDetailByEmail);
 
 router.patch("/", updateUserDetail);
 
