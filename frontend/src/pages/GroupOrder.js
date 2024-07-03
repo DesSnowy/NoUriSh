@@ -19,6 +19,7 @@ const GroupOrder = () => {
     const [currCanteen, setCurrCanteen] = useState("");
     const [groupId, setGroupId] = useState("")
     const [orders, setOrders] = useState([]);
+    const [hasIncompleteOrder, setHasIncompleteOrder] = useState(false)
 
     useEffect(() => {
       const fetchProfile = async () => {
@@ -120,6 +121,7 @@ const GroupOrder = () => {
         toast.success("Group order created");
         console.log("Group order created successfully", json);
         setHasActiveOrder(true);
+        setHasIncompleteOrder(true);
         setCurrCanteen(canteens.filter((c) => c.id == canteen)[0].name);
         setGroupId(json.group_id)
       }
@@ -143,24 +145,35 @@ const GroupOrder = () => {
       if (response.ok) {
         setHasActiveOrder(false);
         setError(null);
-        setOrders([]);
         toast.success("Group order closed")
       }
     };
 
+    const handleCompleteOrder = async (e) => {
+      e.preventDefault();
+      
+      setOrders([]);
+      setHasIncompleteOrder(false)
+      toast.success("Group order completed")
+    }
+
     return (
       <>
-        {hasActiveOrder ? (
+        {hasActiveOrder || hasIncompleteOrder ? (
           <div>
-            <p className="font-medium ml-4 mb-4 mt-4">
-              Your group order at {currCanteen} is currently open.
-              Group ID: {groupId}
-            </p>
-            <button className="button ml-4 mb-6" onClick={handleCloseOrder}>
-              Close group order
-            </button>
+            {hasActiveOrder && (
+              <div>
+                <p className="font-medium ml-4 mb-4 mt-4">
+                Your group order at {currCanteen} is currently open.
+                Group ID: {groupId}
+                </p>
+                <button className="button ml-4 mb-6" onClick={handleCloseOrder}>
+                  Close group order
+                </button>
+              </div>
+            )}
             {error && <div className="error">{error}</div>}
-
+            
             <h2 className='ml-4 mb-4'>Orders submitted to your group order:</h2>
             {error && <div className="error">{error}</div>}
             {orders.length === 0 ? (
@@ -168,13 +181,16 @@ const GroupOrder = () => {
             ) : (
               <div className="ml-4 mr-4 flex flex-wrap">
                 {orders.map(order => (
-                  <div className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
-                    <OrderDetails key={order.id} order={order} />
+                  <div key={order.id} className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+                    <OrderDetails order={order} />
                     <ViewProfileButton email={order.userEmail} token={user.token} />
                   </div>
                 ))}
               </div>
             )}
+            <button className="button ml-4 mb-6" onClick={handleCompleteOrder}>
+              Complete group order
+            </button>
           </div>
         ) : (
           <div>
@@ -191,7 +207,7 @@ const GroupOrder = () => {
                   </option>
                 ))}
               </select>
-
+  
               <button type="submit" className="button ml-4">
                 Start group order
               </button>
@@ -201,6 +217,7 @@ const GroupOrder = () => {
         )}
       </>
     );
-}
+  }
+
 
 export default GroupOrder
