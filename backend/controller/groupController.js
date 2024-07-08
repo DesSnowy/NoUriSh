@@ -4,6 +4,7 @@ const {
   selectUserFromEmail,
   selectActiveGroupsFromEmail,
   closeGroupFromEmail,
+  completeGroupFromEmail,
 } = require("../database/query");
 const { checkAllNotNull, mapGroupForView } = require("../utils/functions");
 
@@ -68,4 +69,21 @@ const closeGroup = async (req, res) => {
   }
 };
 
-module.exports = { getGroups, createGroup, getUserGroup, closeGroup };
+const completeGroup = async (req, res) => {
+  const email = req.email;
+  try {
+    const group = await completeGroupFromEmail(email);
+    console.log("group completed");
+    res.status(200).json(mapGroupForView(group));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server erroe" });
+  }
+};
+module.exports = {
+  getGroups,
+  createGroup,
+  getUserGroup,
+  closeGroup,
+  completeGroup,
+};

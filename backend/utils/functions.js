@@ -54,6 +54,7 @@ const mapGroupForView = (group) => {
     canteen_id: group.canteen_id,
     canteen_name: group.canteen_name,
     status: group.status,
+    incomplete: group.incomplete,
   };
 };
 

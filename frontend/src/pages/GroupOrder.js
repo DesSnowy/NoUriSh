@@ -58,10 +58,11 @@ const GroupOrder = () => {
         });
         const json = await response.json();
         console.log(json);
-        if (response.ok && json.status) {
-          setHasActiveOrder(true);
+        if (response.ok && json.incomplete) {
+          setHasActiveOrder(json.status);
           setCurrCanteen(json.canteen_name);
-          setGroupId(json.group_id)
+          setGroupId(json.group_id);
+          setHasIncompleteOrder(json.incomplete);
         }
       };
 
@@ -75,13 +76,16 @@ const GroupOrder = () => {
     useEffect(() => {
       const fetchOrdersByGroupId = async () => {
         try {
-          const response = await fetch(`${BASE_API_URL}/api/order/group/${groupId}`, {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          });
+          const response = await fetch(
+            `${BASE_API_URL}/api/order/group/${groupId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
           const json = await response.json();
-  
+
           if (response.ok) {
             setOrders(json);
           } else {
@@ -92,10 +96,10 @@ const GroupOrder = () => {
         }
       };
 
-      if (hasActiveOrder && groupId) {
+      if (hasIncompleteOrder && groupId) {
         fetchOrdersByGroupId();
       }
-    }, [user, groupId, hasActiveOrder])
+    }, [user, groupId, hasActiveOrder]);
 
     const handleOpenOrder = async (e) => {
       e.preventDefault();
@@ -123,7 +127,7 @@ const GroupOrder = () => {
         setHasActiveOrder(true);
         setHasIncompleteOrder(true);
         setCurrCanteen(canteens.filter((c) => c.id == canteen)[0].name);
-        setGroupId(json.group_id)
+        setGroupId(json.id);
       }
     };
 
@@ -143,19 +147,35 @@ const GroupOrder = () => {
         setError(json.error);
       }
       if (response.ok) {
-        setHasActiveOrder(false);
         setError(null);
-        toast.success("Group order closed")
+        setHasActiveOrder(false);
+        toast.success("Group order closed");
       }
     };
 
     const handleCompleteOrder = async (e) => {
       e.preventDefault();
-      
-      setOrders([]);
-      setHasIncompleteOrder(false)
-      toast.success("Group order completed")
-    }
+
+      const response = await fetch(`${BASE_API_URL}/api/group/complete/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setOrders([]);
+        setHasIncompleteOrder(false);
+        setHasActiveOrder(false);
+
+        toast.success("Group order completed");
+      }
+    };
 
     return (
       <>
@@ -164,26 +184,41 @@ const GroupOrder = () => {
             {hasActiveOrder && (
               <div>
                 <p className="font-medium ml-4 mb-4 mt-4">
-                Your group order at {currCanteen} is currently open.
-                Group ID: {groupId}
+                  Your group order at {currCanteen} is currently open. Group ID:{" "}
+                  {groupId}
                 </p>
                 <button className="button ml-4 mb-6" onClick={handleCloseOrder}>
                   Close group order
                 </button>
               </div>
             )}
+            {!hasActiveOrder && (
+              <div>
+                <p className="font-medium ml-4 mb-4 mt-4">
+                  Your group order at {currCanteen} is closed. Group ID:{" "}
+                  {groupId}
+                </p>
+              </div>
+            )}
+
             {error && <div className="error">{error}</div>}
-            
-            <h2 className='ml-4 mb-4'>Orders submitted to your group order:</h2>
+
+            <h2 className="ml-4 mb-4">Orders submitted to your group order:</h2>
             {error && <div className="error">{error}</div>}
             {orders.length === 0 ? (
               <div className="ml-4">No orders yet.</div>
             ) : (
               <div className="ml-4 mr-4 flex flex-wrap">
-                {orders.map(order => (
-                  <div key={order.id} className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+                {orders.map((order) => (
+                  <div
+                    key={order.id}
+                    className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg"
+                  >
                     <OrderDetails order={order} />
-                    <ViewProfileButton email={order.userEmail} token={user.token} />
+                    <ViewProfileButton
+                      email={order.userEmail}
+                      token={user.token}
+                    />
                   </div>
                 ))}
               </div>
@@ -207,7 +242,7 @@ const GroupOrder = () => {
                   </option>
                 ))}
               </select>
-  
+
               <button type="submit" className="button ml-4">
                 Start group order
               </button>

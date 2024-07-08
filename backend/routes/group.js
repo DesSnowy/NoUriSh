@@ -4,6 +4,7 @@ const {
   createGroup,
   getUserGroup,
   closeGroup,
+  completeGroup,
 } = require("../controller/groupController");
 const router = express.Router();
 
@@ -14,5 +15,7 @@ router.get("/:canteenId", getGroups);
 router.post("/", createGroup);
 
 router.patch("/close", closeGroup);
+
+router.patch("/complete", completeGroup);
 
 module.exports = router;

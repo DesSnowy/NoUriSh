@@ -37,6 +37,7 @@ CREATE TABLE "group" (
     canteen_id int,
     residence VARCHAR(50),
     status BOOLEAN,
+    incomplete BOOLEAN,
     user_email VARCHAR(255),
     CONSTRAINT fk_canteen FOREIGN KEY(canteen_id) REFERENCES canteen(canteen_id),
     CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
@@ -80,6 +81,6 @@ INSERT INTO food (food_name, price, stall_id, description) VALUES
 INSERT INTO "user" VALUES
 ('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP');
 
-INSERT INTO "group" (canteen_id, residence, status, user_email) VALUES
-(1, 'PGP', true, 'test123@test.com'),
-(2, 'Tembusu', true, 'test123@test.com');
+INSERT INTO "group" (canteen_id, residence, status, incomplete, user_email) VALUES
+(1, 'PGP', true, true,'test123@test.com'),
+(2, 'Tembusu', true, true,'test123@test.com');
