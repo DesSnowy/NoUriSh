@@ -69,6 +69,7 @@ const closeGroup = async (req, res) => {
   }
 };
 
+
 const completeGroup = async (req, res) => {
   const email = req.email;
   try {
@@ -87,3 +88,4 @@ module.exports = {
   closeGroup,
   completeGroup,
 };
+

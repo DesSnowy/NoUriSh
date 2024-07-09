@@ -48,6 +48,7 @@ const closeGroupFromEmail = async (email) => {
   return results.rows[0];
 };
 
+
 const completeGroupFromEmail = async (email) => {
   const results = await db.query(
     `UPDATE "group" SET status = false, incomplete = false WHERE user_email = $1 RETURNING *`,
@@ -55,6 +56,7 @@ const completeGroupFromEmail = async (email) => {
   );
   return results.rows[0];
 };
+
 module.exports = {
   selectUserFromEmail,
   selectAllGroups,

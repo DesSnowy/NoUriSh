@@ -179,6 +179,7 @@ const GroupOrder = () => {
 
     return (
       <>
+
         {hasActiveOrder || hasIncompleteOrder ? (
           <div>
             {hasActiveOrder && (
@@ -226,6 +227,7 @@ const GroupOrder = () => {
             <button className="button ml-4 mb-6" onClick={handleCompleteOrder}>
               Complete group order
             </button>
+
           </div>
         ) : (
           <div>
@@ -253,6 +255,7 @@ const GroupOrder = () => {
       </>
     );
   }
+
 
 
 export default GroupOrder

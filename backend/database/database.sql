@@ -84,3 +84,4 @@ INSERT INTO "user" VALUES
 INSERT INTO "group" (canteen_id, residence, status, incomplete, user_email) VALUES
 (1, 'PGP', true, true,'test123@test.com'),
 (2, 'Tembusu', true, true,'test123@test.com');
+
