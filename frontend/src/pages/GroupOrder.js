@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OrderDetails from '../components/OrderDetails';
+import ViewProfileButton from '../components/ViewProfileButton';
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -15,6 +17,9 @@ const GroupOrder = () => {
     const [error, setError] = useState(null);
     const [hasActiveOrder, setHasActiveOrder] = useState(false);
     const [currCanteen, setCurrCanteen] = useState("");
+    const [groupId, setGroupId] = useState("")
+    const [orders, setOrders] = useState([]);
+    const [hasIncompleteOrder, setHasIncompleteOrder] = useState(false)
 
     useEffect(() => {
       const fetchProfile = async () => {
@@ -53,9 +58,11 @@ const GroupOrder = () => {
         });
         const json = await response.json();
         console.log(json);
-        if (response.ok && json.status) {
-          setHasActiveOrder(true);
+        if (response.ok && json.incomplete) {
+          setHasActiveOrder(json.status);
           setCurrCanteen(json.canteen_name);
+          setGroupId(json.group_id);
+          setHasIncompleteOrder(json.incomplete);
         }
       };
 
@@ -65,6 +72,34 @@ const GroupOrder = () => {
         checkActiveGroupOrder();
       }
     }, [user]);
+
+    useEffect(() => {
+      const fetchOrdersByGroupId = async () => {
+        try {
+          const response = await fetch(
+            `${BASE_API_URL}/api/order/group/${groupId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+          const json = await response.json();
+
+          if (response.ok) {
+            setOrders(json);
+          } else {
+            setError(json.error);
+          }
+        } catch (err) {
+          setError("Failed to fetch orders");
+        }
+      };
+
+      if (hasIncompleteOrder && groupId) {
+        fetchOrdersByGroupId();
+      }
+    }, [user, groupId, hasActiveOrder]);
 
     const handleOpenOrder = async (e) => {
       e.preventDefault();
@@ -90,7 +125,9 @@ const GroupOrder = () => {
         toast.success("Group order created");
         console.log("Group order created successfully", json);
         setHasActiveOrder(true);
+        setHasIncompleteOrder(true);
         setCurrCanteen(canteens.filter((c) => c.id == canteen)[0].name);
+        setGroupId(json.id);
       }
     };
 
@@ -110,22 +147,87 @@ const GroupOrder = () => {
         setError(json.error);
       }
       if (response.ok) {
-        setHasActiveOrder(false);
         setError(null);
+        setHasActiveOrder(false);
+        toast.success("Group order closed");
+      }
+    };
+
+    const handleCompleteOrder = async (e) => {
+      e.preventDefault();
+
+      const response = await fetch(`${BASE_API_URL}/api/group/complete/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setOrders([]);
+        setHasIncompleteOrder(false);
+        setHasActiveOrder(false);
+
+        toast.success("Group order completed");
       }
     };
 
     return (
       <>
-        {hasActiveOrder ? (
+
+        {hasActiveOrder || hasIncompleteOrder ? (
           <div>
-            <p className="font-medium ml-4 mb-4 mt-4">
-              Your group order at {currCanteen} is currently open.
-            </p>
-            <button className="button ml-4" onClick={handleCloseOrder}>
-              Close group order
-            </button>
+            {hasActiveOrder && (
+              <div>
+                <p className="font-medium ml-4 mb-4 mt-4">
+                  Your group order at {currCanteen} is currently open. Group ID:{" "}
+                  {groupId}
+                </p>
+                <button className="button ml-4 mb-6" onClick={handleCloseOrder}>
+                  Close group order
+                </button>
+              </div>
+            )}
+            {!hasActiveOrder && (
+              <div>
+                <p className="font-medium ml-4 mb-4 mt-4">
+                  Your group order at {currCanteen} is closed. Group ID:{" "}
+                  {groupId}
+                </p>
+              </div>
+            )}
+
             {error && <div className="error">{error}</div>}
+
+            <h2 className="ml-4 mb-4">Orders submitted to your group order:</h2>
+            {error && <div className="error">{error}</div>}
+            {orders.length === 0 ? (
+              <div className="ml-4">No orders yet.</div>
+            ) : (
+              <div className="ml-4 mr-4 flex flex-wrap">
+                {orders.map((order) => (
+                  <div
+                    key={order.id}
+                    className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg"
+                  >
+                    <OrderDetails order={order} />
+                    <ViewProfileButton
+                      email={order.userEmail}
+                      token={user.token}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+            <button className="button ml-4 mb-6" onClick={handleCompleteOrder}>
+              Complete group order
+            </button>
+
           </div>
         ) : (
           <div>
@@ -152,6 +254,8 @@ const GroupOrder = () => {
         )}
       </>
     );
-}
+  }
+
+
 
 export default GroupOrder

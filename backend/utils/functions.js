@@ -8,6 +8,7 @@ const mapOrderForView = (order) => {
     group: order.group_id,
     price: order.price,
     createdAt: order.created_time,
+    userEmail: order.user_email,
   };
 };
 
@@ -53,6 +54,7 @@ const mapGroupForView = (group) => {
     canteen_id: group.canteen_id,
     canteen_name: group.canteen_name,
     status: group.status,
+    incomplete: group.incomplete,
   };
 };
 
