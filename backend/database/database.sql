@@ -52,6 +52,7 @@ CREATE TABLE "order" (
     group_id INT,
     quantity INT,
     price FLOAT,
+    status VARCHAR(50),
     created_time TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY(user_email) REFERENCES "user"(email)
 );

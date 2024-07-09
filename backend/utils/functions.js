@@ -9,6 +9,7 @@ const mapOrderForView = (order) => {
     price: order.price,
     createdAt: order.created_time,
     userEmail: order.user_email,
+    orderStatus: order.status,
   };
 };
 
