@@ -10,6 +10,7 @@ const mapOrderForView = (order) => {
     createdAt: order.created_time,
     userEmail: order.user_email,
     orderStatus: order.status,
+    groupEmail: order.group_email,
   };
 };
 
@@ -50,7 +51,7 @@ const mapItemForView = (item) => {
 const mapGroupForView = (group) => {
   return {
     id: group.group_id,
-    user: group.user_email,
+    email: group.user_email,
     residence: group.residence,
     canteen_id: group.canteen_id,
     canteen_name: group.canteen_name,

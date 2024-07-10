@@ -6,7 +6,10 @@ const getOrders = async (req, res) => {
   try {
     const email = req.email;
     const results = await db.query(
-      'select * from "order" WHERE user_email = $1;',
+      `select o.*, g.user_email as group_email 
+      FROM "order" o 
+      JOIN "group" g on o.group_id = g.group_id 
+      WHERE o.user_email = $1;`,
       [email]
     );
     const orders = results.rows;
