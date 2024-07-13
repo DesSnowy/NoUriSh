@@ -7,7 +7,8 @@ CREATE TABLE "user" (
     password TEXT,
     name VARCHAR(255),
     tele VARCHAR(50),
-    residence VARCHAR(50)
+    residence VARCHAR(50),
+    isAdmin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE "canteen" (
@@ -80,7 +81,7 @@ INSERT INTO food (food_name, price, stall_id, description) VALUES
 
 
 INSERT INTO "user" VALUES
-('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP');
+('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP', false);
 
 INSERT INTO "group" (canteen_id, residence, status, incomplete, user_email) VALUES
 (1, 'PGP', true, true,'test123@test.com'),

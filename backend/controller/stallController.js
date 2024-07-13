@@ -18,4 +18,19 @@ const getStalls = async (req, res) => {
   }
 };
 
-module.exports = { getStalls };
+const addStall = async (req, res) => {
+  const { stallName, canteenId } = req.body;
+
+  try {
+      const result = await pool.query(
+          'INSERT INTO "stall" (stall_name, canteen_id) VALUES ($1, $2) RETURNING *',
+          [stallName, canteenId]
+      );
+      res.status(201).json(result.rows[0]);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+module.exports = { getStalls, addStall };

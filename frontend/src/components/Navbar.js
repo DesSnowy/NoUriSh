@@ -1,16 +1,40 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
+import { useEffect, useState } from 'react';
+
+const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Navbar = () => {
     const { logout } = useLogout()
     const { user } = useAuthContext()
     const location = useLocation()
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const handleClick = () => {
         logout()
         window.location.href = '/';
     }
+
+    useEffect(() => {
+      const fetchProfile = async () => {
+        const response = await fetch(`${BASE_API_URL}/api/user/`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const json = await response.json(); //array of profile objects
+  
+        if (response.ok) {
+          setIsAdmin(json.isadmin)
+          console.log(json.isadmin)
+        }
+      };
+  
+      if (user) {
+        fetchProfile();
+      }
+    }, [user]);
 
     return (
       <header className="bg-white flex flex-row justify-between items-center h-20">
@@ -28,6 +52,7 @@ const Navbar = () => {
                   <NavLinkWithUnderline to="/grouporder" currentPath={location.pathname}>Group Order</NavLinkWithUnderline>
                   <NavLinkWithUnderline to="/myorders" currentPath={location.pathname}>My Orders</NavLinkWithUnderline>
                   <NavLinkWithUnderline to="/profile" currentPath={location.pathname}>Profile</NavLinkWithUnderline>
+                  {isAdmin && <NavLinkWithUnderline to="/admin" currentPath={location.pathname}>Admin</NavLinkWithUnderline>}
               </div>
             </div>
             <div className="flex flex-row items-center font-normal text-lg m-3 space-x-4">

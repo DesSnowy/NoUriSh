@@ -24,15 +24,15 @@ export const useLogin = () => {
       return false;
     }
     if (response.ok) {
-      //save user to local storage
+      // Save user data including isAdmin to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
-      //update auth context
+      // Update auth context
       dispatch({ type: "LOGIN", payload: json });
 
       setIsLoading(false);
       return true;
-    }
+  }
   };
 
   return { login, isLoading, error };
