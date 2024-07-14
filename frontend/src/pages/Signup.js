@@ -9,7 +9,7 @@ const Signup = () => {
     const [residence, setResidence] = useState("")
     const [tele, setTele] = useState("")
     const {signup, error, isLoading} = useSignup()
-    const { navigate } = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
