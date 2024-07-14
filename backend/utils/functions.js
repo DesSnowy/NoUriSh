@@ -60,6 +60,16 @@ const mapGroupForView = (group) => {
   };
 };
 
+const mapUserForView = (user) => {
+  return {
+    email: user.email,
+    name: user.name,
+    tele: user.tele,
+    residence: user.residence,
+    isAdmin: user.isadmin,
+  };
+};
+
 module.exports = {
   mapOrderForView,
   checkAllNotNull,
@@ -67,4 +77,5 @@ module.exports = {
   mapStallForView,
   mapItemForView,
   mapGroupForView,
+  mapUserForView,
 };

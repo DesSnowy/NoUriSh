@@ -26,8 +26,7 @@ const Navbar = () => {
         const json = await response.json(); //array of profile objects
   
         if (response.ok) {
-          setIsAdmin(json.isadmin)
-          console.log(json.isadmin)
+          setIsAdmin(json.isAdmin);
         }
       };
   
