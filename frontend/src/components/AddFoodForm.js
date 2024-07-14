@@ -29,7 +29,7 @@ const AddFood = ({ onClose }) => {
       setError(json.error);
     } else {
       setError(null);
-      toast.success("Stall added successfully");
+      toast.success("Food added successfully");
       setFoodName("");
       setPrice(0);
       setStallId(0);
