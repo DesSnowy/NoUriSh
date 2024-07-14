@@ -81,7 +81,8 @@ INSERT INTO food (food_name, price, stall_id, description) VALUES
 
 
 INSERT INTO "user" VALUES
-('test123@test.com', 'some random hashed password', 'tester', 'test123', 'PGP', false);
+('test123@test.com', '$2b$10$ZK/aOSzuezgKps6ISJsMpOZNChlYcJoTWXcGnY9GMaJwPX/2zDLFC', 'tester', 'test123', 'PGP', false),
+('admin@admin.com', '$2b$10$ZK/aOSzuezgKps6ISJsMpOZNChlYcJoTWXcGnY9GMaJwPX/2zDLFC', 'admin', 'admin', 'PGP', true);
 
 INSERT INTO "group" (canteen_id, residence, status, incomplete, user_email) VALUES
 (1, 'PGP', true, true,'test123@test.com'),
