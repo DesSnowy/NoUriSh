@@ -15,7 +15,7 @@ const AddStall = ({ onClose }) => {
       e.preventDefault()
       console.log("submitted")
 
-      const response = await fetch(`${BASE_API_URL}/api/stall`, {
+      const response = await fetch(`${BASE_API_URL}/api/stall/`, {
         method: "POST",
         body: JSON.stringify({ stallName, canteenId }),
         headers: {
