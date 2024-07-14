@@ -5,6 +5,6 @@ const { getCanteens, addCanteen } = require("../controller/canteenController");
 
 router.get("/", getCanteens);
 
-router.post("/canteen", addCanteen);
+router.post("/", addCanteen);
 
 module.exports = router;
