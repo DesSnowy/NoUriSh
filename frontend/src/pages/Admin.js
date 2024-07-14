@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AddCanteenForm from "../components/AddCanteenForm"
 import AddStallForm from "../components/AddStallForm"
-import AddFoodForm from "../components/AddFoodForm"
+import AddFoodForm from "../components/AddFoodForm.js";
 
 const Admin = () => {
   const [showCanteenPopup, setShowCanteenPopup] = useState(false);
