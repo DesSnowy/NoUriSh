@@ -7,7 +7,8 @@ const {
   getOrdersByGroupId,
   createOrder,
   deleteOrder,
-  updateOrder,
+  patchOrder,
+  patchOrderStatus,
 } = require("../controller/orderController");
 
 //GET all order
@@ -17,7 +18,7 @@ router.get("/", getOrders);
 router.get("/:id", getSingleOrder);
 
 //GET orders with a specific group ID
-router.get("/group/:groupId", getOrdersByGroupId)
+router.get("/group/:groupId", getOrdersByGroupId);
 
 //POST a new order
 router.post("/", createOrder);
@@ -26,6 +27,8 @@ router.post("/", createOrder);
 router.delete("/:id", deleteOrder);
 
 //UPDATE an order
-router.patch("/:id", updateOrder);
+router.patch("/:id", patchOrder);
+
+router.patch("/:orderId/status", patchOrderStatus);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const db = require("../database/db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator");
-const { checkAllNotNull } = require("../utils/functions");
+const { checkAllNotNull, mapUserForView } = require("../utils/functions");
 
 const signupUser = async (req, res) => {
   const { email, password, name, tele, residence } = req.body;
@@ -79,8 +79,7 @@ const getUserDetail = async (req, res) => {
     if (results.rows.length == 0) {
       return res.status(400).json({ error: "user does not exist" });
     }
-
-    res.status(200).json(results.rows[0]);
+    res.status(200).json(mapUserForView(results.rows[0]));
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server error!" });
@@ -91,17 +90,19 @@ const getUserDetailByEmail = async (req, res) => {
   const userEmail = req.params.userEmail;
 
   try {
-    const results = await db.query('SELECT * FROM "user" WHERE email = $1', [userEmail]);
+    const results = await db.query('SELECT * FROM "user" WHERE email = $1', [
+      userEmail,
+    ]);
 
     if (results.rows.length === 0) {
-      return res.status(400).json({ error: 'User not found' });
+      return res.status(400).json({ error: "User not found" });
     }
 
     const user = results.rows[0];
-    res.status(200).json(user);
+    res.status(200).json(mapUserForView(user));
   } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -115,8 +116,8 @@ const updateUserDetail = async (req, res) => {
     'UPDATE "user" SET name = $1, tele = $2, residence = $3 where email = $4 returning *',
     [name, tele, residence, email]
   );
-  const order = results.rows[0];
-  res.status(200).json(order);
+  const user = results.rows[0];
+  res.status(200).json(mapUserForView(user));
   try {
   } catch (error) {
     console.log(error);

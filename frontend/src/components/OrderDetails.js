@@ -13,6 +13,7 @@ const OrderDetails = ({ order }) => {
         <p className="mb-1"><span className="font-medium">Price:</span> ${(order.price*order.quantity).toFixed(2)}</p>
         <p className="mb-1"><span className="font-medium">Group:</span> {order.group}</p>
         <p className="mb-1"><span className="font-medium">Ordered at:</span> {new Date(order.createdAt).toLocaleString()}</p>
+        <p className="mb-1"><span className="font-bold">Order status:</span> {order.orderStatus}</p>
       </div>
     </div>
   );

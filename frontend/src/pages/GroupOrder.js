@@ -77,7 +77,7 @@ const GroupOrder = () => {
       const fetchOrdersByGroupId = async () => {
         try {
           const response = await fetch(
-            `${BASE_API_URL}/api/order/group/${groupId}`,
+            `${BASE_API_URL}/api/order/group/${groupId}/`,
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
@@ -156,6 +156,16 @@ const GroupOrder = () => {
     const handleCompleteOrder = async (e) => {
       e.preventDefault();
 
+      const incompleteOrders = orders.filter(
+        (order) => order.orderStatus !== "received"
+      );
+      if (incompleteOrders.length > 0) {
+        setError(
+          "Cannot complete order. All orders must have the status 'received'"
+        );
+        return;
+      }
+
       const response = await fetch(`${BASE_API_URL}/api/group/complete/`, {
         method: "PATCH",
         headers: {
@@ -174,6 +184,31 @@ const GroupOrder = () => {
         setHasActiveOrder(false);
 
         toast.success("Group order completed");
+      }
+    };
+
+    const updateOrderStatus = async (orderId, newStatus) => {
+      const response = await fetch(
+        `${BASE_API_URL}/api/order/${orderId}/status/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({ orderStatus: newStatus }),
+        }
+      );
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+      } else {
+        setOrders(
+          orders.map((order) =>
+            order.id === orderId ? { ...order, orderStatus: newStatus } : order
+          )
+        );
       }
     };
 
@@ -216,6 +251,16 @@ const GroupOrder = () => {
                     className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg"
                   >
                     <OrderDetails order={order} />
+                    <select
+                      value={order.orderStatus}
+                      onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="ordered">Ordered from stall</option>
+                      <option value="collected">Collected from stall</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="received">Received</option>
+                    </select>
                     <ViewProfileButton
                       email={order.userEmail}
                       token={user.token}

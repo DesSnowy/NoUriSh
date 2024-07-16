@@ -14,5 +14,5 @@ export const useLogout = () => {
         ordersDispatch({type: 'SET_ORDERS', payload: null})
     }
 
-    return {logout}
+    return { logout }
 }

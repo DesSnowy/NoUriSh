@@ -4,7 +4,7 @@ const {
   selectAllGroups,
   selectAllCanteens,
 } = require("../database/query");
-const { mapCanteenForView } = require("../utils/functions");
+const { mapCanteenForView, checkAllNotNull } = require("../utils/functions");
 
 const getCanteens = async (req, res) => {
   try {
@@ -30,4 +30,22 @@ const getCanteens = async (req, res) => {
   }
 };
 
-module.exports = { getCanteens };
+const addCanteen = async (req, res) => {
+  const { canteenName, canteenImage } = req.body;
+
+  if (!checkAllNotNull(canteenName, canteenImage)) {
+    return res.status(400).json({ error: "all field must be filled!" });
+  }
+  try {
+    const result = await db.query(
+      'INSERT INTO "canteen" (canteen_name, canteen_image) VALUES ($1, $2) RETURNING *',
+      [canteenName, canteenImage]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getCanteens, addCanteen };

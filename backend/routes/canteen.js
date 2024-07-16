@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { getCanteens } = require("../controller/canteenController");
+const { getCanteens, addCanteen } = require("../controller/canteenController");
 
 router.get("/", getCanteens);
+
+router.post("/", addCanteen);
 
 module.exports = router;

@@ -14,9 +14,10 @@ import Canteens from "./pages/Canteens";
 import Stalls from "./pages/Stalls";
 import GroupOrder from "./pages/GroupOrder";
 import Menu from "./pages/Menu";
+import Admin from "./pages/Admin";
 
 function App() {
-  const { user } = useAuthContext();
+  const { user, isAdmin } = useAuthContext();
 
   return (
     <div className="min-h-screen bg-blue-100">
@@ -43,6 +44,7 @@ function App() {
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/grouporder" element={<GroupOrder />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </div>
       </BrowserRouter>

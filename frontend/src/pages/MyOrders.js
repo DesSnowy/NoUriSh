@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from "../hooks/useAuthContext";
 import OrderDetails from '../components/OrderDetails';
+import ViewProfileButton from '../components/ViewProfileButton';
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -42,11 +43,18 @@ const MyOrders = () => {
         <div className="ml-4">No orders found.</div>
       ) : (
         <div className="ml-4 mr-4 flex flex-wrap">
-          {orders.slice().reverse().map(order => (
-            <div className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
-              <OrderDetails key={order.id} order = {order} />
-            </div>
-          ))}
+          {orders
+            .slice()
+            .reverse()
+            .map((order) => (
+              <div className="ml-10 w-96 flex flex-col items-start gap-4 mb-4 p-4 border border-gray-300 bg-white rounded-lg shadow-lg">
+                <OrderDetails key={order.id} order={order} />
+                <ViewProfileButton
+                  email={order.groupEmail}
+                  token={user.token}
+                />
+              </div>
+            ))}
         </div>
       )}
     </div>

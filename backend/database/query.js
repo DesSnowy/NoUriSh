@@ -57,6 +57,14 @@ const completeGroupFromEmail = async (email) => {
   return results.rows[0];
 };
 
+const updateOrderStatus = async (orderId, newStatus) => {
+  const results = await db.query(
+    `UPDATE "order" SET status = $1 where order_id = $2 returning *`,
+    [newStatus, orderId]
+  );
+  return results.rows[0];
+};
+
 module.exports = {
   selectUserFromEmail,
   selectAllGroups,
@@ -65,4 +73,5 @@ module.exports = {
   selectActiveGroupsFromEmail,
   closeGroupFromEmail,
   completeGroupFromEmail,
+  updateOrderStatus,
 };

@@ -1,11 +1,15 @@
 const db = require("../database/db");
+const { updateOrderStatus } = require("../database/query");
 const { mapOrderForView, checkAllNotNull } = require("../utils/functions");
 //GET all orders
 const getOrders = async (req, res) => {
   try {
     const email = req.email;
     const results = await db.query(
-      'select * from "order" WHERE user_email = $1;',
+      `select o.*, g.user_email as group_email 
+      FROM "order" o 
+      JOIN "group" g on o.group_id = g.group_id 
+      WHERE o.user_email = $1;`,
       [email]
     );
     const orders = results.rows;
@@ -41,7 +45,7 @@ const getOrdersByGroupId = async (req, res) => {
       `SELECT o.*, u.name as user_name, u.email as user_email
       FROM "order" o
       JOIN "user" u ON o.user_email = u.email
-      WHERE o.group_id = $1;`, 
+      WHERE o.group_id = $1;`,
       [groupId]
     );
     const orders = results.rows;
@@ -63,9 +67,9 @@ const createOrder = async (req, res) => {
         return res.status(500).json({ error: "all fields must be filled" });
       }
       const results = await db.query(
-        `INSERT INTO "order" (canteen, stall, fooditem, price, quantity, group_id, user_email, created_time) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
-        [canteen, stall, foodItem, price, quantity, group, email]
+        `INSERT INTO "order" (canteen, stall, fooditem, price, quantity, group_id, user_email, status,created_time) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())`,
+        [canteen, stall, foodItem, price, quantity, group, email, "pending"]
       );
     }
     console.log(`${orderItems.length} item added `);
@@ -89,7 +93,7 @@ const deleteOrder = async (req, res) => {
 };
 
 //UPDATE an order
-const updateOrder = async (req, res) => {
+const patchOrder = async (req, res) => {
   try {
     const { canteen, stall, foodItem, price, user_id, tele } = req.body;
     if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
@@ -107,11 +111,26 @@ const updateOrder = async (req, res) => {
   }
 };
 
+//UPDATE order status
+const patchOrderStatus = async (req, res) => {
+  try {
+    console.log("updating order status");
+    const { orderStatus } = req.body;
+    const id = req.params.orderId;
+    const order = await updateOrderStatus(id, orderStatus);
+    res.status(200).json(mapOrderForView(order));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("internal server error");
+  }
+};
+
 module.exports = {
   getOrders,
   getSingleOrder,
   getOrdersByGroupId,
   createOrder,
   deleteOrder,
-  updateOrder,
+  patchOrder,
+  patchOrderStatus,
 };

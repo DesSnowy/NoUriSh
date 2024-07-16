@@ -13,7 +13,7 @@ const ViewProfileButton = ({ email, token }) => {
             throw new Error('Email is required');
           }
 
-      const response = await fetch(`${BASE_API_URL}/api/user/${email}`, {
+      const response = await fetch(`${BASE_API_URL}/api/user/${email}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

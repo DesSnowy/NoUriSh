@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast } from "react-toastify";
+import ViewProfileButton from '../components/ViewProfileButton';
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -175,6 +176,24 @@ const Cart = () => {
             </button>
             {error && <div className="error">{error}</div>}
           </form>
+
+          <h3 className="text-large font-semibold">Active groups</h3>
+          {groups.length === 0 ? (
+            <div className="">
+              No active groups!
+            </div>
+          ) : (
+            groups.map((group) => (
+              <div className="mb-2" key={group.id} value={group.id}>
+                {group.id}
+                <ViewProfileButton
+                  email={group.email}
+                  token={user.token}
+                />
+              </div>
+            ))
+          )}
+
         </div>
       </div>
     </section>

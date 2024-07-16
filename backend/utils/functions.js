@@ -9,6 +9,8 @@ const mapOrderForView = (order) => {
     price: order.price,
     createdAt: order.created_time,
     userEmail: order.user_email,
+    orderStatus: order.status,
+    groupEmail: order.group_email,
   };
 };
 
@@ -49,12 +51,22 @@ const mapItemForView = (item) => {
 const mapGroupForView = (group) => {
   return {
     id: group.group_id,
-    user: group.user_email,
+    email: group.user_email,
     residence: group.residence,
     canteen_id: group.canteen_id,
     canteen_name: group.canteen_name,
     status: group.status,
     incomplete: group.incomplete,
+  };
+};
+
+const mapUserForView = (user) => {
+  return {
+    email: user.email,
+    name: user.name,
+    tele: user.tele,
+    residence: user.residence,
+    isAdmin: user.isadmin,
   };
 };
 
@@ -65,4 +77,5 @@ module.exports = {
   mapStallForView,
   mapItemForView,
   mapGroupForView,
+  mapUserForView,
 };

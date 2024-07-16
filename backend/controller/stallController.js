@@ -1,5 +1,5 @@
 const db = require("../database/db");
-const { mapStallForView } = require("../utils/functions");
+const { mapStallForView, checkAllNotNull } = require("../utils/functions");
 const getStalls = async (req, res) => {
   try {
     const { canteenId } = req.params;
@@ -18,4 +18,23 @@ const getStalls = async (req, res) => {
   }
 };
 
-module.exports = { getStalls };
+const addStall = async (req, res) => {
+  const { stallName, canteenId } = req.body;
+
+  if (!checkAllNotNull(stallName, canteenId)) {
+    return res.status(400).json({ error: "all field must be filled!" });
+  }
+
+  try {
+    const result = await db.query(
+      'INSERT INTO "stall" (stall_name, canteen_id) VALUES ($1, $2) RETURNING *',
+      [stallName, canteenId]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getStalls, addStall };
