@@ -77,7 +77,7 @@ const GroupOrder = () => {
       const fetchOrdersByGroupId = async () => {
         try {
           const response = await fetch(
-            `${BASE_API_URL}/api/order/group/${groupId}`,
+            `${BASE_API_URL}/api/order/group/${groupId}/`,
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
@@ -156,9 +156,13 @@ const GroupOrder = () => {
     const handleCompleteOrder = async (e) => {
       e.preventDefault();
 
-      const incompleteOrders = orders.filter(order => order.orderStatus !== 'received');
+      const incompleteOrders = orders.filter(
+        (order) => order.orderStatus !== "received"
+      );
       if (incompleteOrders.length > 0) {
-        setError("Cannot complete order. All orders must have the status 'received'");
+        setError(
+          "Cannot complete order. All orders must have the status 'received'"
+        );
         return;
       }
 
@@ -184,22 +188,27 @@ const GroupOrder = () => {
     };
 
     const updateOrderStatus = async (orderId, newStatus) => {
-      const response = await fetch(`${BASE_API_URL}/api/order/${orderId}/status`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ orderStatus: newStatus }),
-      });
+      const response = await fetch(
+        `${BASE_API_URL}/api/order/${orderId}/status/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({ orderStatus: newStatus }),
+        }
+      );
       const json = await response.json();
-  
+
       if (!response.ok) {
         setError(json.error);
       } else {
-        setOrders(orders.map(order =>
-          order.id === orderId ? { ...order, orderStatus: newStatus } : order
-        ));
+        setOrders(
+          orders.map((order) =>
+            order.id === orderId ? { ...order, orderStatus: newStatus } : order
+          )
+        );
       }
     };
 
