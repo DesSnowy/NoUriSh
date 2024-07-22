@@ -41,7 +41,7 @@ const addCanteen = async (req, res) => {
       'INSERT INTO "canteen" (canteen_name, canteen_image) VALUES ($1, $2) RETURNING *',
       [canteenName, canteenImage]
     );
-    res.status(201).json(result.rows[0]);
+    res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

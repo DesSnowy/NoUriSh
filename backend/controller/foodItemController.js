@@ -33,7 +33,7 @@ const addFood = async (req, res) => {
       'INSERT INTO "food" (food_name, price, stall_id) VALUES ($1, $2, $3) RETURNING *',
       [foodName, price, stallId]
     );
-    res.status(201).json(result.rows[0]);
+    res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

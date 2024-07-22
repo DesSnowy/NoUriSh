@@ -20,21 +20,6 @@ const getOrders = async (req, res) => {
   }
 };
 
-//GET a single order
-const getSingleOrder = async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const results = await db.query('SELECT * from "order" WHERE id = $1;', [
-      id,
-    ]);
-    const order = results.rows[0];
-    res.status(200).json(mapOrderForView(order));
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-};
 
 //GET orders with a specific group ID
 const getOrdersByGroupId = async (req, res) => {
@@ -64,7 +49,7 @@ const createOrder = async (req, res) => {
     for (const order of orderItems) {
       const { canteen, stall, foodItem, price, quantity, group } = order;
       if (!checkAllNotNull(canteen, stall, foodItem, price, quantity, group)) {
-        return res.status(500).json({ error: "all fields must be filled" });
+        return res.status(400).json({ error: "all field must be filled!" });
       }
       const results = await db.query(
         `INSERT INTO "order" (canteen, stall, fooditem, price, quantity, group_id, user_email, status,created_time) 
@@ -73,43 +58,14 @@ const createOrder = async (req, res) => {
       );
     }
     console.log(`${orderItems.length} item added `);
-    res.status(200).json(`${orderItems.length} item added `);
+    res.status(200).json(`${orderItems.length} item added`);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
 
-//DELETE an order
-const deleteOrder = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const results = await db.query('DELETE FROM "order" where id = $1', [id]);
-    res.status(200).json(results.rows);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
-};
 
-//UPDATE an order
-const patchOrder = async (req, res) => {
-  try {
-    const { canteen, stall, foodItem, price, user_id, tele } = req.body;
-    if (!checkAllNotNull(canteen, stall, foodItem, price, tele)) {
-      return res.status(500).json({ error: "all fields must be filled" });
-    }
-    const id = req.params.id;
-    const results = await db.query(
-      'UPDATE "order" SET canteen = $1, stall = $2, fooditem = $3, price = $4, tele = $5 where id = $6 returning *',
-      [canteen, stall, foodItem, price, user_id, tele, id]
-    );
-    const order = results.rows[0];
-    res.status(200).json(mapOrderForView(order));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 //UPDATE order status
 const patchOrderStatus = async (req, res) => {
@@ -127,10 +83,7 @@ const patchOrderStatus = async (req, res) => {
 
 module.exports = {
   getOrders,
-  getSingleOrder,
   getOrdersByGroupId,
   createOrder,
-  deleteOrder,
-  patchOrder,
   patchOrderStatus,
 };

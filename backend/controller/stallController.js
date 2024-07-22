@@ -30,7 +30,7 @@ const addStall = async (req, res) => {
       'INSERT INTO "stall" (stall_name, canteen_id) VALUES ($1, $2) RETURNING *',
       [stallName, canteenId]
     );
-    res.status(201).json(result.rows[0]);
+    res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
