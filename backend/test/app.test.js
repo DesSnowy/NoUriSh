@@ -45,6 +45,11 @@ const foodData = {
   stallId: 6,
 };
 
+const groupData = {
+  canteen_id: 1,
+  residence: "PGP",
+};
+
 const userToken = jwtGenerator(userData.email);
 
 describe("given unknown routes", () => {
@@ -421,6 +426,87 @@ describe("/api/food", () => {
         expect(statusCode).toBe(200);
         expect(body.food_name).toBe(foodData.foodName);
         expect(body.stall_id).toBe(foodData.stallId);
+      });
+    });
+  });
+});
+
+describe("/api/group", () => {
+  describe("POST /", () => {
+    describe("given missing information", () => {
+      it("should return 400 with error", async () => {
+        const { statusCode, body } = await supertest(app)
+          .post(`/api/group`)
+          .set({ authorization: `Bearer ${userToken}` })
+          .send({});
+
+        expect(statusCode).toBe(400);
+        expect(body.error).toBe("all field must be filled!");
+      });
+    });
+
+    describe("given all inforamtion", () => {
+      it("should return 200 with the group", async () => {
+        const { statusCode, body } = await supertest(app)
+          .post(`/api/group`)
+          .set({ authorization: `Bearer ${userToken}` })
+          .send(groupData);
+
+        expect(statusCode).toBe(200);
+        expect(body.residence).toBe(groupData.residence);
+      });
+    });
+  });
+
+  describe("GET /solo", () => {
+    describe("given active orders", () => {
+      it("should reutrn 200 with the group", async () => {
+        const { statusCode, body } = await supertest(app)
+          .get(`/api/group/solo`)
+          .set({ authorization: `Bearer ${userToken}` });
+
+        expect(statusCode).toBe(200);
+        expect(body.incomplete).toBe(true);
+      });
+    });
+  });
+
+  describe("GET /:canteenId", () => {
+    describe("given normal usage", () => {
+      it("should return 200 with an array of all the groups", async () => {
+        const { statusCode, body } = await supertest(app)
+          .get(`/api/group/1`)
+          .set({ authorization: `Bearer ${userToken}` });
+
+        expect(statusCode).toBe(200);
+        expect(body.length).toBe(2);
+      });
+    });
+  });
+
+  describe("PATCH /close", () => {
+    describe("given normal usage", () => {
+      it("should return the closed group", async () => {
+        const { statusCode, body } = await supertest(app)
+          .patch(`/api/group/close`)
+          .set({ authorization: `Bearer ${userToken}` });
+
+        expect(statusCode).toBe(200);
+        expect(body.status).toBe(false);
+        expect(body.incomplete).toBe(true);
+      });
+    });
+  });
+
+  describe("PATCH /complete", () => {
+    describe("given normal usage", () => {
+      it("should return the closed group", async () => {
+        const { statusCode, body } = await supertest(app)
+          .patch(`/api/group/complete`)
+          .set({ authorization: `Bearer ${userToken}` });
+
+        expect(statusCode).toBe(200);
+        expect(body.incomplete).toBe(false);
       });
     });
   });
