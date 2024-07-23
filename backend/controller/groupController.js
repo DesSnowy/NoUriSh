@@ -46,7 +46,7 @@ const createGroup = async (req, res) => {
   const email = req.email;
   const { canteen_id, residence } = req.body;
   if (!checkAllNotNull(canteen_id, residence)) {
-    return res.status(500).json({ error: "all fields must be filled" });
+    return res.status(400).json({ error: "all field must be filled!" });
   }
   try {
     const newGroup = await insertGroup(email, canteen_id, residence);
