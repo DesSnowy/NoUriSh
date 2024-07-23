@@ -37,7 +37,7 @@ const AddStall = ({ onClose }) => {
     }
 
   return (
-    <form onSubmit={handleSubmitStall}>
+    <form onSubmit={handleSubmitStall} className="space-y-4 p-4 bg-white rounded-lg shadow-md">
         <label className="userInputHeading">Stall name:</label>
         <input
           type="text"

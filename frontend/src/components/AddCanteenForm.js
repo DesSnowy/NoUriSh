@@ -36,7 +36,7 @@ const AddCanteen = ({ onClose }) => {
     }
 
   return (
-    <form onSubmit={handleSubmitCanteen}>
+    <form onSubmit={handleSubmitCanteen} className="space-y-4 p-4 bg-white rounded-lg shadow-md">
         <label className="userInputHeading">Canteen name:</label>
         <input
           type="text"

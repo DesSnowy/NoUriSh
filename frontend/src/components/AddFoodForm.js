@@ -38,7 +38,7 @@ const AddFood = ({ onClose }) => {
   };
 
   return (
-    <form onSubmit={handleSubmitFood}>
+    <form onSubmit={handleSubmitFood} className="space-y-4 p-4 bg-white rounded-lg shadow-md">
       <label className="userInputHeading">Food name:</label>
       <input
         type="text"
