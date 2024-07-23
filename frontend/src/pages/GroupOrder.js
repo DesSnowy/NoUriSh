@@ -213,8 +213,10 @@ const GroupOrder = () => {
     };
 
     return (
-      <>
-
+      <div className="mt-4 ml-10 mr-10">
+        <h3 className="text-4xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
+          Group Order
+        </h3>
         {hasActiveOrder || hasIncompleteOrder ? (
           <div>
             {hasActiveOrder && (
@@ -253,7 +255,9 @@ const GroupOrder = () => {
                     <OrderDetails order={order} />
                     <select
                       value={order.orderStatus}
-                      onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                      onChange={(e) =>
+                        updateOrderStatus(order.id, e.target.value)
+                      }
                     >
                       <option value="pending">Pending</option>
                       <option value="ordered">Ordered from stall</option>
@@ -269,10 +273,12 @@ const GroupOrder = () => {
                 ))}
               </div>
             )}
-            <button className="button ml-4 mb-6" onClick={handleCompleteOrder}>
+            <button
+              className="button ml-4 mb-6 mt-7"
+              onClick={handleCompleteOrder}
+            >
               Complete group order
             </button>
-
           </div>
         ) : (
           <div>
@@ -297,7 +303,7 @@ const GroupOrder = () => {
             </form>
           </div>
         )}
-      </>
+      </div>
     );
   }
 

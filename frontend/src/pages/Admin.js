@@ -21,7 +21,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className=" mt-4 ml-10 mr-10">
       {showCanteenPopup && (
         <div
           onClick={() => setShowCanteenPopup(false)}
@@ -69,8 +69,10 @@ const Admin = () => {
           </div>
         </div>
       )}
-
-      <div className="space-y-4">
+      <h3 className="text-4xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
+        Admin
+      </h3>
+      <div className="space-x-5">
         <button className="button" onClick={handleAddCanteen}>
           Add Canteen
         </button>
@@ -82,7 +84,7 @@ const Admin = () => {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 export default Admin;
