@@ -36,8 +36,10 @@ const MyOrders = () => {
   }, [user]);
 
   return (
-    <div>
-      <h2 className="mt-4 ml-10 mb-4 text-3xl font-semibold">My Orders</h2>
+    <div className="mt-4 ml-10 mr-10">
+      <h3 className="text-4xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
+        My Orders
+      </h3>
       {error && <div className="error">{error}</div>}
       {orders.length === 0 ? (
         <div className="ml-4">No orders found.</div>

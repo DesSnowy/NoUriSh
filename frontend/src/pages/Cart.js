@@ -115,7 +115,7 @@ const Cart = () => {
 
   return (
     <section className="mt-4 ml-10 mr-10">
-      <h3 className="text-5xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
+      <h3 className="text-4xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
         Cart
       </h3>
       <div className="grid gap-4 grid-cols-2">
@@ -179,21 +179,15 @@ const Cart = () => {
 
           <h3 className="text-large font-semibold">Active groups</h3>
           {groups.length === 0 ? (
-            <div className="">
-              No active groups!
-            </div>
+            <div className="">No active groups!</div>
           ) : (
             groups.map((group) => (
               <div className="mb-2" key={group.id} value={group.id}>
                 {group.id}
-                <ViewProfileButton
-                  email={group.email}
-                  token={user.token}
-                />
+                <ViewProfileButton email={group.email} token={user.token} />
               </div>
             ))
           )}
-
         </div>
       </div>
     </section>

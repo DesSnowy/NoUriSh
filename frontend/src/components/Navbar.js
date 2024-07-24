@@ -28,6 +28,11 @@ const Navbar = () => {
         if (response.ok) {
           setIsAdmin(json.isAdmin);
         }
+
+        if (!response.ok && json.error == "Request is not authorised") {
+          logout();
+          window.location.href = "/";
+        }
       };
   
       if (user) {
