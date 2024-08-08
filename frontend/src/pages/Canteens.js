@@ -6,6 +6,7 @@ import SearchBar from "../components/SearchBar";
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
 const Canteens = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [canteens, setCanteens] = useState([]);
   const [filteredCanteens, setFilteredCanteens] = useState([]);
   const { user } = useAuthContext();
@@ -19,6 +20,7 @@ const Canteens = () => {
 
   useEffect(() => {
     const fetchCanteens = async () => {
+      setIsLoading(true);
       const response = await fetch(`${BASE_API_URL}/api/canteen/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -30,6 +32,7 @@ const Canteens = () => {
         setCanteens(json);
         setFilteredCanteens(json); // initially show all canteens
       }
+      setIsLoading(false);
     };
     if (user) {
       fetchCanteens();
@@ -41,12 +44,16 @@ const Canteens = () => {
       <SearchBar onSearch={handleSearch} />
       <div className="flex flex-row justify-start  mt-4">
         <div className="canteens">
-          {filteredCanteens && filteredCanteens.length > 0 ? (
-            filteredCanteens.map((canteen) => (
-              <CanteenDetails key={canteen.id} canteen={canteen} />
-            ))
+          {isLoading ? (
+            <p className="loading">Loading...</p>
           ) : (
-            <p className="error">No canteens found.</p>
+            filteredCanteens && filteredCanteens.length > 0 ? (
+              filteredCanteens.map((canteen) => (
+                <CanteenDetails key={canteen.id} canteen={canteen} />
+              ))
+            ) : (
+              <p className="error">No canteens found.</p>
+            )
           )}
         </div>
       </div>
