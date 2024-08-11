@@ -43,6 +43,7 @@ const foodData = {
   foodName: "test_food",
   price: 5.0,
   stallId: 6,
+  description: "test description",
 };
 
 const groupData = {
