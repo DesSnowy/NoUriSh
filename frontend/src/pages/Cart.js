@@ -5,6 +5,7 @@ import { CartContext } from "../context/CartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { toast } from "react-toastify";
 import ViewProfileButton from '../components/ViewProfileButton';
+import LoadingSign from "../components/LoadingSign";
 
 const BASE_API_URL = process.env.REACT_APP_API_URL;
 
@@ -15,14 +16,15 @@ const Cart = () => {
   const [name, setName] = useState("");
   const [residence, setResidence] = useState("");
   const [tele, setTele] = useState("");
-  console.log(cartItems);
   const [total, setTotal] = useState(0);
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
+      setIsLoading(true);
       const response = await fetch(`${BASE_API_URL}/api/user/`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -35,10 +37,12 @@ const Cart = () => {
         setName(json.name);
         setResidence(json.residence);
         setTele(json.tele);
+        setIsLoading(false);
       }
     };
 
     const fetchGroupOrders = async () => {
+      setIsLoading(true);
       const response = await fetch(
         `${BASE_API_URL}/api/group/${cartItems[0].canteen_id}/`,
         {
@@ -52,6 +56,7 @@ const Cart = () => {
 
       if (response.ok) {
         setGroups(json);
+        setIsLoading(false);
       }
     };
     setTotal(0);
@@ -118,78 +123,82 @@ const Cart = () => {
       <h3 className="text-4xl font-semibold border-b-2 border-gray-400 py-2 mb-4">
         Cart
       </h3>
-      <div className="grid gap-4 grid-cols-2">
-        <div>
-          {cartItems?.length === 0 && <div>No items in cart</div>}
-          {cartItems?.length > 0 &&
-            cartItems.map((item) => (
-              <div className="flex items-center justify-between gap-4 mb-2 border-b py-2 bg-white rounded-lg">
-                <div className="flex items-center gap-4">
-                  <h3 className="ml-4 text-lg font-semibold">{item.name}</h3>
-                  <div className="text-gray-500">
-                    <p>Canteen: {item.canteen_name}</p>
-                    <p>Stall: {item.stall_name}</p>
-                    <p>Price: ${item.price.toFixed(2)}</p>
-                    <p>Quantity: {item.quantity}</p>
+      {isLoading ? (
+        <LoadingSign />
+      ) : (
+        <div className="grid gap-4 grid-cols-2">
+          <div>
+            {cartItems?.length === 0 && <div>No items in cart</div>}
+            {cartItems?.length > 0 &&
+              cartItems.map((item) => (
+                <div className="flex items-center justify-between gap-4 mb-2 border-b py-2 bg-white rounded-lg">
+                  <div className="flex items-center gap-4">
+                    <h3 className="ml-4 text-lg font-semibold">{item.name}</h3>
+                    <div className="text-gray-500">
+                      <p>Canteen: {item.canteen_name}</p>
+                      <p>Stall: {item.stall_name}</p>
+                      <p>Price: ${item.price.toFixed(2)}</p>
+                      <p>Quantity: {item.quantity}</p>
+                    </div>
                   </div>
+                  <button
+                    className="button mr-4"
+                    type="button"
+                    onClick={() => handleRemove(item.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
-                <button
-                  className="button mr-4"
-                  type="button"
-                  onClick={() => handleRemove(item.id)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-          <div className="py-2 text-right pr-16">
-            <span className="text-gray-500">Total price:</span>
-            <span className="text-lg font-semibold pl-2">
-              ${total.toFixed(2)}
-            </span>
+              ))}
+            <div className="py-2 text-right pr-16">
+              <span className="text-gray-500">Total price:</span>
+              <span className="text-lg font-semibold pl-2">
+                ${total.toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <div className="bg-gray-300 p-4 rounded-lg space-y-3">
+            <h2 className="text-xl font-semibold">Checkout</h2>
+            <form onSubmit={handleSubmit}>
+              <select
+                onChange={(e) => setGroup(e.target.value)}
+                value={group}
+                className="userInput mb-8"
+              >
+                <option value="">Select group to join</option>
+                {groups.length === 0 ? (
+                  <option value="" disabled>
+                    No active groups!
+                  </option>
+                ) : (
+                  groups.map((group) => (
+                    <option key={group.id} value={group.id}>
+                      {group.id}
+                    </option>
+                  ))
+                )}
+              </select>
+
+              <button type="submit" className="button">
+                Submit order
+              </button>
+              {error && <div className="error">{error}</div>}
+            </form>
+
+            <h3 className="text-large font-semibold">Active groups</h3>
+            {groups.length === 0 ? (
+              <div className="">No active groups!</div>
+            ) : (
+              groups.map((group) => (
+                <div className="mb-2" key={group.id} value={group.id}>
+                  {group.id}
+                  <ViewProfileButton email={group.email} token={user.token} />
+                </div>
+              ))
+            )}
           </div>
         </div>
-        <div className="bg-gray-300 p-4 rounded-lg space-y-3">
-          <h2 className="text-xl font-semibold">Checkout</h2>
-          <form onSubmit={handleSubmit}>
-            <select
-              onChange={(e) => setGroup(e.target.value)}
-              value={group}
-              className="userInput mb-8"
-            >
-              <option value="">Select group to join</option>
-              {groups.length === 0 ? (
-                <option value="" disabled>
-                  No active groups!
-                </option>
-              ) : (
-                groups.map((group) => (
-                  <option key={group.id} value={group.id}>
-                    {group.id}
-                  </option>
-                ))
-              )}
-            </select>
-
-            <button type="submit" className="button">
-              Submit order
-            </button>
-            {error && <div className="error">{error}</div>}
-          </form>
-
-          <h3 className="text-large font-semibold">Active groups</h3>
-          {groups.length === 0 ? (
-            <div className="">No active groups!</div>
-          ) : (
-            groups.map((group) => (
-              <div className="mb-2" key={group.id} value={group.id}>
-                {group.id}
-                <ViewProfileButton email={group.email} token={user.token} />
-              </div>
-            ))
-          )}
-        </div>
-      </div>
+      )}
     </section>
   );
 };

@@ -22,16 +22,16 @@ const getFoodItems = async (req, res) => {
 };
 
 const addFood = async (req, res) => {
-  const { foodName, price, stallId } = req.body;
+  const { foodName, description, price, stallId } = req.body;
 
-  if (!checkAllNotNull(foodName, price, stallId)) {
+  if (!checkAllNotNull(foodName, description, price, stallId)) {
     return res.status(400).json({ error: "all field must be filled!" });
   }
 
   try {
     const result = await db.query(
-      'INSERT INTO "food" (food_name, price, stall_id) VALUES ($1, $2, $3) RETURNING *',
-      [foodName, price, stallId]
+      'INSERT INTO "food" (food_name, description, price, stall_id) VALUES ($1, $2, $3, $4) RETURNING *',
+      [foodName, description, price, stallId]
     );
     res.status(200).json(result.rows[0]);
   } catch (err) {
